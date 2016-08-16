@@ -5,10 +5,14 @@
 #include "ship.h"
 
 
-Ship::Ship(point pos, quat rot, int important){
+Ship::Ship(point pos, quat rot, int important, int* idx){
 	memcpy(this->pos, pos, sizeof(point));
 	memcpy(this->rot, rot, sizeof(quat));
 	this->important = important;
+	shipList[shipCount] = this;
+	index = shipCount;
+	*idx = index;
+	shipCount++;
 }
 void Ship::tick(){
 	addSpeed();

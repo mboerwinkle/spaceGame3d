@@ -1,13 +1,14 @@
 #include "dataTypes.h"
+#include "def.h"
 #ifndef SHIP_H
 #define SHIP_H
 class Ship{
 public:
 	void tick();
-	Ship(point pos, quat rot, int important);
+	Ship(point pos, quat rot, int important, int* idx);
 
 	controls ctl;
-	int index;//FIXME
+	int index;
 	int important;//controls whether or not they are expected to required to 
 	
 	int speed = 1;
@@ -16,4 +17,6 @@ public:
 private:
 	void addSpeed();
 };
+extern Ship* shipList[MAXSHIPS];
+extern int shipCount;
 #endif

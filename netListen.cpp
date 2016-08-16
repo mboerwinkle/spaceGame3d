@@ -5,7 +5,10 @@
 #include <netinet/in.h>
 #include <string.h>
 #include "def.h"
+#include "user.h"
+#include "ship.h"
 #include "netListen.h"
+#include "netParse.h"
 void* netListen(void *null){
 	char msg[MSGSIZE];
 	struct sockaddr_in incomingAddr;
@@ -21,7 +24,7 @@ void* netListen(void *null){
 		for(int x = 0; x < userCount; x++){
 			if(userList[x]->addr.sin_addr.s_addr == incomingAddr.sin_addr.s_addr){
 				found = 1;
-				printf("%s\n", msg);
+				netParse(x, msg);
 			}
 		}
 		if(!found){
