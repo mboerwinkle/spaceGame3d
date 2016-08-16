@@ -1,1 +1,1 @@
-g++ -O0 -g *.cpp -lm -o run
+g++ -g -O0 -Wall *.c -o run -lm

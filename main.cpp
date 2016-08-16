@@ -9,6 +9,7 @@
 #include "user.h"
 #include "def.h"
 #include "delay.h"
+#include "netListen.h"
 using namespace std;
 void setupNetwork();
 void loop();
@@ -33,7 +34,8 @@ void setupNetwork(){
 	recvAddr.sin_addr={.s_addr = htonl(INADDR_ANY)};
 	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 	bind(sockfd, (struct sockaddr*)&recvAddr, sizeof(recvAddr));
-	//start listening thread
+	pthread_t networkThread;
+	pthread_create(&networkThread, NULL, netListen, NULL);
 }
 void loop(){
 	while(1){

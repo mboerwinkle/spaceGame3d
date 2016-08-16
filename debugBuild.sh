@@ -1,1 +1,1 @@
-g++ -g -O0 -Wall *.cpp -lm -o run
+g++ -g -O0 -Wall *.cpp -o run -lpthread

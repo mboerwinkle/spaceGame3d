@@ -17,7 +17,7 @@ void User::sendUserData(){
 	char msg[MSGSIZE];
 	memset(msg, 0, sizeof(msg));
 	//later replace with meaningful code
-	strcpy(msg, "TEXT:sup fam?");
+	strcpy(msg, "TEXT:sup fam?\0");
 	msgUsed+=13;
 	sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
 }
