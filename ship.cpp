@@ -3,7 +3,7 @@
 #include <string.h>
 #include "dataTypes.h"
 #include "ship.h"
-
+#include "bubble.h"
 
 Ship::Ship(point pos, quat rot, int important, int* idx){
 	memcpy(this->pos, pos, sizeof(point));
@@ -11,6 +11,12 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 	this->important = important;
 	shipList[shipCount] = this;
 	index = shipCount;
+	if(important){
+		myBubble = new Bubble(this);
+	}else{
+		orphans[orphanCount] = index;
+		orphanCount++;
+	}
 	*idx = index;
 	shipCount++;
 }

@@ -20,7 +20,11 @@ User* userList[MAXUSERS];
 int userCount = 0;
 Ship* shipList[MAXSHIPS];
 int shipCount = 0;
+int orphans[MAXSHIPS];
+int orphanCount = 0;
 struct sockaddr_in recvAddr;
+int maxScnTx;
+unsigned int tickCount = 0;
 
 int main(){
 	setupNetwork();
@@ -51,6 +55,7 @@ void loop(){
 		//handleCollisions(also, add remove ships from collision boxes)
 		
 		//wait Until time up.
+		tickCount++;
 		delay(60);
 	}
 }
