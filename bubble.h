@@ -2,12 +2,13 @@
 #define BUBBLE_H
 #include "dataTypes.h"
 #include "def.h"
+#include "intList.h"
 class Ship;
 class Bubble{
 public:
 	Bubble(Ship *owner);
 	void updateOrphans();
-	int shipIdx[MAXSHIPS];//FIXME make dynamic
+	IntList shipIdx;
 	int len = 0;
 	Ship *owner;
 private:

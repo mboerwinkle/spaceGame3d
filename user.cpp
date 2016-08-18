@@ -20,10 +20,10 @@ void User::sendUserData(){
 	unsigned int msgUsed = 3;
 	memcpy(msg+msgUsed, &tickCount, sizeof(unsigned int));
 	msgUsed+=sizeof(unsigned int);
-	for(int x = 0; x<shipList[shipIdx]->myBubble->len; x++){
-		memcpy(msg+msgUsed, shipList[shipList[shipIdx]->myBubble->shipIdx[x]]->pos, sizeof(point));
+	for(int x = 0; x<shipList[shipIdx]->myBubble->shipIdx.len; x++){
+		memcpy(msg+msgUsed, shipList[shipList[shipIdx]->myBubble->shipIdx.list[x]]->pos, sizeof(point));
 		msgUsed+=sizeof(point);
-		memcpy(msg+msgUsed, shipList[shipList[shipIdx]->myBubble->shipIdx[x]]->rot, sizeof(quat));
+		memcpy(msg+msgUsed, shipList[shipList[shipIdx]->myBubble->shipIdx.list[x]]->rot, sizeof(quat));
 		msgUsed+=sizeof(quat);
 		if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
 			msg[msgUsed] = 0;

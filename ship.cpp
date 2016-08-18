@@ -14,8 +14,7 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 	if(important){
 		myBubble = new Bubble(this);
 	}else{
-		orphans[orphanCount] = index;
-		orphanCount++;
+		orphans.add(index);
 	}
 	*idx = index;
 	shipCount++;

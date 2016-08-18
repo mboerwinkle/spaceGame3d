@@ -3,6 +3,7 @@
 #include "dataTypes.h"
 #include "bubble.h"
 #include "def.h"
+#include "intList.h"
 class Bubble;
 class Ship{
 public:
@@ -22,6 +23,5 @@ private:
 };
 extern Ship* shipList[MAXSHIPS];
 extern int shipCount;
-extern int orphans[MAXSHIPS];
-extern int orphanCount;
+extern IntList orphans;
 #endif
