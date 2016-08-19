@@ -9,6 +9,7 @@ public:
 	Bubble(Ship *owner);
 	void updateOrphans();
 	IntList shipIdx;
+	IntList closeImportant;
 	int len = 0;
 	Ship *owner;
 private:

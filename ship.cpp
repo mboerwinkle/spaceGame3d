@@ -4,6 +4,7 @@
 #include "dataTypes.h"
 #include "ship.h"
 #include "bubble.h"
+#include "chebDist.h"
 
 Ship::Ship(point pos, quat rot, int important, int* idx){
 	memcpy(this->pos, pos, sizeof(point));
@@ -12,6 +13,7 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 	shipList[shipCount] = this;
 	index = shipCount;
 	if(important){
+		importants.add(index);
 		myBubble = new Bubble(this);
 	}else{
 		orphans.add(index);
@@ -21,6 +23,23 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 }
 void Ship::tick(){
 	addSpeed();
+}
+void Ship::tickImportant(){
+	if(!important){
+		puts("error blagrug");
+	}
+	myBubble->updateOrphans();
+	for(int x = 0; x < importants.len; x++){
+		if(chebDist(shipList[importants.list[x]], this) < 2*BUBBLERAD && -1 == myBubble->closeImportant.search(importants.list[x])){
+			myBubble->closeImportant.add(importants.list[x]);
+		}
+	}
+	for(int x = 0; x < myBubble->closeImportant.len; x++){
+		if(chebDist(shipList[myBubble->closeImportant.list[x]], this) > 2*BUBBLERAD){
+			myBubble->closeImportant.remove(x);
+			
+		}
+	}
 }
 void Ship::addSpeed(){
 	pos[0]+=speed*(rot[0]*rot[0]+rot[1]*rot[1]-rot[2]*rot[2]-rot[3]*rot[3]);

@@ -8,6 +8,7 @@ class Bubble;
 class Ship{
 public:
 	void tick();
+	void tickImportant();
 	Ship(point pos, quat rot, int important, int* idx);
 
 	controls ctl;
@@ -23,5 +24,6 @@ private:
 };
 extern Ship* shipList[MAXSHIPS];
 extern int shipCount;
+extern IntList importants;
 extern IntList orphans;
 #endif

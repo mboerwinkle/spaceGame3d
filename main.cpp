@@ -21,8 +21,8 @@ int userCount = 0;
 Ship* shipList[MAXSHIPS];
 int shipCount = 0;
 IntList orphans;
+IntList importants;
 struct sockaddr_in recvAddr;
-int maxScnTx;
 unsigned int tickCount = 0;
 
 int main(){
@@ -52,7 +52,10 @@ void loop(){
 			shipList[x]->tick();
 		}
 		//handleCollisions(also, add remove ships from collision boxes)
-		
+		//FIXME dont need to tickImportants every tick
+		for(int x = 0; x < importants.len; x++){//handles orphans and touching bubbles
+			shipList[importants.list[x]]->tickImportant();
+		}		
 		//wait Until time up.
 		tickCount++;
 		delay(60);
