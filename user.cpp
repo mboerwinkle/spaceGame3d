@@ -10,11 +10,11 @@ User::User(unsigned long ip){
 	addr.sin_addr.s_addr=ip;
 }
 void User::sendUserData(){
-	if(shipIdx == -1){
-		return;
-	}
 	if(shipList[shipIdx] == NULL){
 		shipIdx = -1;
+	}
+	if(shipIdx == -1){
+		return;
 	}
 	Ship* myShip = shipList[shipIdx];
 	Ship* targ = shipList[shipIdx];
