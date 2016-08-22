@@ -23,6 +23,7 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 }
 void Ship::tick(){
 	addSpeed();
+	applyControls();
 }
 void Ship::tickImportant(){
 	if(!important){
@@ -40,6 +41,21 @@ void Ship::tickImportant(){
 			
 		}
 	}
+}
+void Ship::applyControls(){
+	//ctl.accel
+	if(speed+accel < maxSpeed*ctl.accel){
+		speed+=accel;
+	}else if(speed-decel > maxSpeed*ctl.accel){
+		speed-=decel;
+	}
+	else{
+		speed = maxSpeed*ctl.accel;
+	}
+	//ctl.yaw
+	
+	//ctl.roll
+	//ctl.pitch
 }
 void Ship::addSpeed(){
 	pos[0]+=speed*(rot[0]*rot[0]+rot[1]*rot[1]-rot[2]*rot[2]-rot[3]*rot[3]);
