@@ -12,6 +12,9 @@ public:
 	Ship(point pos, quat rot, int important, int* idx);
 
 	controls ctl;
+	int maxSpeed = 100;
+	int accel = 10;
+	int decel = 10;
 	int index;
 	int important;
 	Bubble* myBubble = NULL;
@@ -21,6 +24,7 @@ public:
 	quat rot = {1,0,0,0};
 private:
 	void addSpeed();
+	void applyControls();
 };
 extern Ship* shipList[MAXSHIPS];
 extern int shipCount;
