@@ -31,8 +31,6 @@ void User::sendUserData(){
 			memcpy(msg+msgUsed, shipList[targ->myBubble->shipIdx.list[x]]->rot, sizeof(quat));
 			msgUsed+=sizeof(quat);
 			if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
-				msg[msgUsed] = 0;
-				msgUsed++;
 				sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
 				char msg[MSGSIZE] = "SCN";
 				int msgUsed = 3;
@@ -42,8 +40,6 @@ void User::sendUserData(){
 		}
 	}
 	if(msgUsed > 3+sizeof(unsigned int)){
-		msg[msgUsed] = 0;
-		msgUsed++;
 		sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
 	}
 }

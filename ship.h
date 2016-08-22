@@ -12,7 +12,7 @@ public:
 	Ship(point pos, quat rot, int important, int* idx);
 
 	controls ctl;
-	int maxSpeed = 0;
+	int maxSpeed = 100;
 	int accel = 10;
 	int decel = 10;
 	int index;
