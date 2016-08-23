@@ -23,6 +23,8 @@ void User::sendUserData(){
 	unsigned int msgUsed = 3;
 	memcpy(msg+msgUsed, &tickCount, sizeof(unsigned int));
 	msgUsed+=sizeof(unsigned int);
+	unsigned int* shipsUsed = (unsigned int*)(msg+msgUsed);
+	msgUsed+=sizeof(unsigned int);//this one is for the number of ships in the packet.
 	for(int impShipIdx = 0; impShipIdx < myShip->myBubble->closeImportant.len; impShipIdx++){
 		targ = shipList[myShip->myBubble->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
 		for(int x = 0; x<targ->myBubble->shipIdx.len; x++){
@@ -30,6 +32,7 @@ void User::sendUserData(){
 			msgUsed+=sizeof(point);
 			memcpy(msg+msgUsed, shipList[targ->myBubble->shipIdx.list[x]]->rot, sizeof(quat));
 			msgUsed+=sizeof(quat);
+			(*shipsUsed)++;
 			if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
 				sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
 				char msg[MSGSIZE] = "SCN";

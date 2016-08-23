@@ -9,7 +9,7 @@ void netParse(char* msg){
 	}else if(!strcmp(prefix, "TXT")){
 		printf("%s\n", msg);
 	}else if(!strcmp(prefix, "SCN")){
-		printf("%s\n", msg);
+		printf("%d ships\n", *((unsigned int*)(msg+3+sizeof(unsigned int))));
 	}
 	
 }
