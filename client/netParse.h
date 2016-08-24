@@ -1,1 +1,1 @@
-extern void netParse(char* msg);
+extern void netParse(char* msg, int len);

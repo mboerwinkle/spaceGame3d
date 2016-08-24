@@ -25,8 +25,11 @@ IntList importants;
 struct sockaddr_in recvAddr;
 unsigned int tickCount = 0;
 
+static void makeEnvironment();
+
 int main(){
 	setupNetwork();
+	makeEnvironment();
 	loop();
 	shutdown();
 	return 0;
@@ -39,6 +42,26 @@ void setupNetwork(){
 	bind(sockfd, (struct sockaddr*)&recvAddr, sizeof(recvAddr));
 	pthread_t networkThread;
 	pthread_create(&networkThread, NULL, netListen, NULL);
+}
+static void makeEnvironment(){
+	int bogus;
+	uint64_t pos[3] = {50000, 50000, 50000};
+	double rot[4] = {1, 0, 0, 0};
+	pos[0] = 50500;
+	new Ship(pos, rot, 0, &bogus);
+	pos[0] = 49500;
+	new Ship(pos, rot, 0, &bogus);
+	pos[0] = 50000;
+	pos[1] = 50500;
+	new Ship(pos, rot, 0, &bogus);
+	pos[1] = 49500;
+	new Ship(pos, rot, 0, &bogus);
+	pos[1] = 50000;
+	pos[2] = 50500;
+	new Ship(pos, rot, 0, &bogus);
+	pos[2] = 49500;
+	new Ship(pos, rot, 0, &bogus);
+	pos[2] = 50000;
 }
 void loop(){
 	while(1){

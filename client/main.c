@@ -5,6 +5,7 @@
 #include <netinet/in.h>
 #include "def.h"
 #include "netParse.h"
+#include "gfx.h"
 
 int sockfd;
 struct sockaddr_in recvAddr, sendAddr;
@@ -17,9 +18,12 @@ int main(int argc, char** argv){
 	}else{
 		startNetwork(argv[1]);
 	}
+	initGfx();
 	while(1){
+		puts("ping!");
 		handleNetwork();
 	}
+	quitGfx();
 	return 0;
 }
 void startNetwork(char* ip){
@@ -37,7 +41,9 @@ void startNetwork(char* ip){
 	sendto(sockfd, "SPN\0", sizeof("SPN\0"), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
 }
 void handleNetwork(){
-	char msg[MSGSIZE];
-	recvfrom(sockfd, msg, MSGSIZE, 0, NULL, NULL);
-	netParse(msg);
+	//Don't really want something potentially large on the stack, therefore static
+	static char msg[MSGSIZE];
+	int len = recvfrom(sockfd, msg, MSGSIZE, 0, NULL, NULL);
+	puts("pong");
+	netParse(msg, len);
 }

@@ -24,7 +24,7 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 void Ship::tick(){
 	applyControls();
 	addSpeed();
-	printf("%ld, %ld, %ld\n", pos[0], pos[1], pos[2]);
+	//printf("%ld, %ld, %ld\n", pos[0], pos[1], pos[2]);
 }
 void Ship::tickImportant(){
 	if(!important){
