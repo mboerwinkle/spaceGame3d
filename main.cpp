@@ -41,6 +41,7 @@ void setupNetwork(){
 	pthread_create(&networkThread, NULL, netListen, NULL);
 }
 void loop(){
+	int count = 0;
 	while(1){
 		//send User data
 		for(int x = 0; x < userCount; x++){
@@ -52,13 +53,16 @@ void loop(){
 			shipList[x]->tick();
 		}
 		//handleCollisions(also, add remove ships from collision boxes)
-		//FIXME dont need to tickImportants every tick
-		for(int x = 0; x < importants.len; x++){//handles orphans and touching bubbles
-			shipList[importants.list[x]]->tickImportant();
-		}		
+		count++;
+		if(count == PERIODIC){
+			count = 0;
+			for(int x = 0; x < importants.len; x++){//handles orphans and touching bubbles
+				shipList[importants.list[x]]->tickImportant();
+			}
+		}
 		//wait Until time up.
 		tickCount++;
-		delay(60);
+		delay(FRAMERATE);
 	}
 }
 void shutdown(){
