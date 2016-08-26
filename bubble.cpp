@@ -28,6 +28,7 @@ void Bubble::makeOrphans(){
 			orphans.add(shipIdx.list[x]);
 			shipIdx.remove(x);
 			shipList[orphans.list[orphans.len-1]]->myBubble = 0;
+			x--;//and here too
 		}
 	}
 }
