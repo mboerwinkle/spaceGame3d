@@ -10,6 +10,7 @@
 #include "def.h"
 #include "delay.h"
 #include "netListen.h"
+#include "readScenario.h"
 using namespace std;
 void setupNetwork();
 void loop();
@@ -25,7 +26,10 @@ IntList importants;
 struct sockaddr_in recvAddr;
 unsigned int tickCount = 0;
 
-int main(){
+int main(int argc, char** argv){
+	if(argc > 1){
+		readScenario(argv[1]);//maybe later have a generate scenario function?
+	}
 	setupNetwork();
 	loop();
 	shutdown();

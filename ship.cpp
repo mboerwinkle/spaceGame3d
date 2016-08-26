@@ -9,6 +9,7 @@
 #include "quatOps.h"
 
 Ship::Ship(point pos, quat rot, int important, int* idx){
+	puts("loading ships");
 	memcpy(this->pos, pos, sizeof(point));
 	memcpy(this->rot, rot, sizeof(quat));
 	this->important = important;
@@ -21,7 +22,7 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 	}else{
 		orphans.add(index);
 	}
-	*idx = index;
+	if(idx != NULL) *idx = index;
 	shipCount++;
 }
 void Ship::tick(){

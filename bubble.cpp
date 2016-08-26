@@ -18,6 +18,7 @@ void Bubble::addOrphans(){
 			shipIdx.add(orphans.list[x]);
 			orphans.remove(x);
 			shipList[shipIdx.list[shipIdx.len-1]]->myBubble = this;
+			x--;//FIXME could I get some validation on this fix?
 		}
 	}
 }

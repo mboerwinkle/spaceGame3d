@@ -9,6 +9,10 @@ void IntList::add(int val){
 	list[len-1]=val;
 }
 void IntList::remove(int idx){
+	//FIXME remove for speed
+	if(idx>=len||idx<0){
+		printf("Intlist error %d\n", idx);
+	}
 	list[idx] = list[len-1];
 	len--;
 }
