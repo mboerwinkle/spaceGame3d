@@ -28,6 +28,7 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 void Ship::tick(){
 	applyControls();
 	addSpeed();
+	printf("%ld %ld %ld\n", pos[0], pos[1], pos[2]);
 }
 void Ship::tickImportant(){//remember, this needs to be able to handle some frames where a bubble is in one bubble's closeImportant list but not reciprocated
 	if(!important){

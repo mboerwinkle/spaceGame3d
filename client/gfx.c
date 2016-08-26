@@ -28,7 +28,7 @@ void drawShip(point where) {
 		pos[i] = ((int64_t)where[i]-500000)/100.0;
 	}
 	glTranslatef(pos[0], pos[1], pos[2]);
-	printf("Translate to (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
+//	printf("Translate to (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
 	/*
 	glRotatef(290.0, 1.0, 0.0, 0.0);
 	glRotatef(planes[i].angle, 0.0, 0.0, 1.0);

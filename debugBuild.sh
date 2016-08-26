@@ -1,1 +1,1 @@
-g++ -g -O0 -Wall *.cpp -o run -lpthread
+g++ -g -O0 -Wall *.cpp -o srv.out -lpthread

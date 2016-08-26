@@ -7,7 +7,9 @@
 #include "def.h"
 #include "netParse.h"
 #include "gfx.h"
+#include "events.h"
 
+controls ctls;
 int sockfd;
 struct sockaddr_in recvAddr, sendAddr;
 void startNetwork(char* ip, int port);
@@ -21,12 +23,16 @@ int main(int argc, char** argv){
 	}else if(argc == 3) {
 		startNetwork(argv[1], atoi(argv[2]));
 	}else{
-		puts("Usage: ./run [[server ip] port]");
+		puts("Usage: ./cli.out [[server ip] port]");
 	}
 	initGfx();
 	while(1){
 		handleNetwork();
+		if(handleEvents()){
+			break;
+		}
 	}
+	//send disconnect msg to server
 	quitGfx();
 	return 0;
 }

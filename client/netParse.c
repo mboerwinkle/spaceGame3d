@@ -13,7 +13,7 @@ void netParse(char* msg, int len){
 	}else if(!strcmp(prefix, "TXT")){
 		printf("%s\n", msg);
 	}else if(!strcmp(prefix, "SCN")){
-		printf("%d ships\n", *((unsigned int*)(msg+3+sizeof(unsigned int))));
+//		printf("%d ships\n", *((unsigned int*)(msg+3+sizeof(unsigned int))));
 		unsigned int thing = *(unsigned int*)(msg+3);
 		if(thing != lastFrame){
 			lastFrame = thing;
