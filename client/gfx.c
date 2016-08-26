@@ -14,6 +14,7 @@
 
 #include <GL/gl.h>
 #include <SDL2/SDL.h>
+#include "dataTypes.h"
 #include "gfx.h"
 
 #define v3f glVertex3f  /* v3f was the short IRIS GL name for glVertex3f */
@@ -25,10 +26,14 @@ void drawShip(point where) {
 	float pos[3];
 	int i;
 	for (i = 0; i < 3; i++) {
-		pos[i] = ((int64_t)where[i]-500000)/100.0;
+		if(where[i] > myPos[i]){//FIXME elegance
+			pos[i] = ((int64_t)where[i]-myPos[i])/100.0;
+		}else{
+			pos[i] = (myPos[i]-(int64_t)where[i])/100.0;
+		}
 	}
 	glTranslatef(pos[0], pos[1], pos[2]);
-//	printf("Translate to (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
+		printf("Translate to (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
 	/*
 	glRotatef(290.0, 1.0, 0.0, 0.0);
 	glRotatef(planes[i].angle, 0.0, 0.0, 1.0);

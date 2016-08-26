@@ -15,6 +15,8 @@ struct sockaddr_in recvAddr, sendAddr;
 void startNetwork(char* ip, int port);
 void handleNetwork();
 char localhost[10] = "127.0.0.1";
+point myPos;
+quat myRot;
 int main(int argc, char** argv){
 	if(argc == 1){
 		startNetwork(localhost, 5999);

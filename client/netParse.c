@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "dataTypes.h"
 #include "def.h"
 #include "gfx.h"
 
@@ -15,12 +16,14 @@ void netParse(char* msg, int len){
 	}else if(!strcmp(prefix, "SCN")){
 //		printf("%d ships\n", *((unsigned int*)(msg+3+sizeof(unsigned int))));
 		unsigned int thing = *(unsigned int*)(msg+3);
+#define stepSize (sizeof(point)+sizeof(quat))
+		int msgUsed = 3+sizeof(unsigned int)*2;
 		if(thing != lastFrame){
 			lastFrame = thing;
 			gfxClear();
+			memcpy(myPos, msg+msgUsed, sizeof(point));
+			memcpy(myRot, msg+msgUsed+sizeof(point), sizeof(quat));
 		}
-		int msgUsed = 3+sizeof(unsigned int)*2;
-#define stepSize (sizeof(point)+sizeof(quat))
 		while(msgUsed + (int)stepSize < len){
 			uint64_t* vars = (uint64_t*)(msg + msgUsed);
 			drawShip(vars);

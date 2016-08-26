@@ -11,4 +11,6 @@ typedef struct controls{
 	int fire = 0;
 }controls;
 extern controls ctls;
+extern point myPos;
+extern quat myRot;
 #endif

@@ -13,7 +13,7 @@ public:
 	Ship(point pos, quat rot, int important, int* idx);
 
 	controls ctl;
-	int maxSpeed = 100;
+	int maxSpeed = 5;
 	int accel = 10;
 	int decel = 10;
 	double rollAngle = M_PI/32;//in radians
