@@ -1,0 +1,2 @@
+[int number of ships in scenario]
+[1 (important) or 0 (not important] [int x] [int y] [int z] [float w] [float x] [float y] [float z] [int speed]

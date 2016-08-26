@@ -10,6 +10,7 @@
 #include "def.h"
 #include "delay.h"
 #include "netListen.h"
+#include "readScenario.h"
 using namespace std;
 void setupNetwork();
 void loop();
@@ -25,11 +26,11 @@ IntList importants;
 struct sockaddr_in recvAddr;
 unsigned int tickCount = 0;
 
-static void makeEnvironment();
-
-int main(){
+int main(int argc, char** argv){
+	if(argc > 1){
+		readScenario(argv[1]);//maybe later have a generate scenario function?
+	}
 	setupNetwork();
-	makeEnvironment();
 	loop();
 	shutdown();
 	return 0;
@@ -43,27 +44,8 @@ void setupNetwork(){
 	pthread_t networkThread;
 	pthread_create(&networkThread, NULL, netListen, NULL);
 }
-static void makeEnvironment(){
-	int bogus;
-	uint64_t pos[3] = {500000, 500000, 500000};
-	double rot[4] = {1, 0, 0, 0};
-	pos[0] = 500500;
-	new Ship(pos, rot, 0, &bogus);
-	pos[0] = 499500;
-	new Ship(pos, rot, 0, &bogus);
-	pos[0] = 500000;
-	pos[1] = 500500;
-	new Ship(pos, rot, 0, &bogus);
-	pos[1] = 499500;
-	new Ship(pos, rot, 0, &bogus);
-	pos[1] = 500000;
-	pos[2] = 500500;
-	new Ship(pos, rot, 0, &bogus);
-	pos[2] = 499500;
-	new Ship(pos, rot, 0, &bogus);
-	pos[2] = 500000;
-}
 void loop(){
+	int count = 0;
 	while(1){
 		//send User data
 		for(int x = 0; x < userCount; x++){
@@ -75,13 +57,16 @@ void loop(){
 			shipList[x]->tick();
 		}
 		//handleCollisions(also, add remove ships from collision boxes)
-		//FIXME dont need to tickImportants every tick
-		for(int x = 0; x < importants.len; x++){//handles orphans and touching bubbles
-			shipList[importants.list[x]]->tickImportant();
-		}		
+		count++;
+		if(count == PERIODIC){
+			count = 0;
+			for(int x = 0; x < importants.len; x++){//handles orphans and touching bubbles
+				shipList[importants.list[x]]->tickImportant();
+			}
+		}
 		//wait Until time up.
 		tickCount++;
-		delay(60);
+		delay(FRAMERATE);
 	}
 }
 void shutdown(){

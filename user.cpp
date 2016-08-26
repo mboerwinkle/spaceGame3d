@@ -20,12 +20,10 @@ void User::sendUserData(){
 	Ship* targ = shipList[shipIdx];
 	
 	char msg[MSGSIZE] = "SCN";
-	unsigned int msgUsed = 3;
-	memcpy(msg+msgUsed, &tickCount, sizeof(unsigned int));
-	msgUsed+=sizeof(unsigned int);
-	unsigned int* shipsUsed = (unsigned int*)(msg+msgUsed);
+	memcpy(msg+3, &tickCount, sizeof(unsigned int));
+	unsigned int* shipsUsed = (unsigned int*)(msg+3+sizeof(unsigned int));
 	*shipsUsed = 0;
-	msgUsed+=sizeof(unsigned int);//this one is for the number of ships in the packet.
+	unsigned int msgUsed = 3+sizeof(unsigned int)*2;
 	for(int impShipIdx = 0; impShipIdx < myShip->myBubble->closeImportant.len; impShipIdx++){
 		targ = shipList[myShip->myBubble->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
 		for(int x = 0; x<targ->myBubble->shipIdx.len; x++){
@@ -36,17 +34,12 @@ void User::sendUserData(){
 			(*shipsUsed)++;
 			if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
 				sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
-				char msg[MSGSIZE] = "SCN";
-				int msgUsed = 3;
-				memcpy(msg+msgUsed, &tickCount, sizeof(unsigned int));
-				msgUsed+=sizeof(unsigned int);
-				shipsUsed = (unsigned int*)(msg+msgUsed);
-				*shipsUsed = 0;
-				msgUsed+=sizeof(unsigned int);
+				(*shipsUsed) = 0;
+				msgUsed = 3+sizeof(unsigned int)*2;
 			}
 		}
 	}
-	if(msgUsed > 3+2*sizeof(unsigned int)){
+	if(msgUsed > 3+sizeof(unsigned int)*2){
 		sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
 	}
 }

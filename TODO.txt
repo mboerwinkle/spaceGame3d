@@ -4,5 +4,5 @@ make some images?
 actually test bubble stuff
 handle going off of the edge
 make sure rotations work as they should
-make ship and user lists reuse free'd spots
+make ship and user lists reuse free'd spots (maybe do this after making sure everything handles ships that no longer exist. would simplify it extremely)
 make sure everything can handle ships that no longer exist/are different now
