@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "dataTypes.h"
 #include "ship.h"
 #include "bubble.h"
 #include "chebDist.h"
+#include "quatOps.h"
 
 Ship::Ship(point pos, quat rot, int important, int* idx){
 	memcpy(this->pos, pos, sizeof(point));
@@ -23,7 +25,7 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 }
 void Ship::tick(){
 	applyControls();
-	addSpeed();
+	//addSpeed();
 	//printf("%ld, %ld, %ld\n", pos[0], pos[1], pos[2]);
 }
 void Ship::tickImportant(){
@@ -54,9 +56,23 @@ void Ship::applyControls(){
 		speed = maxSpeed*ctl.accel;
 	}
 	//ctl.yaw
-	
+	if(ctl.yaw != 0){
+		double angleChg = ctl.yaw*yawAngle;
+		quat chg = {cos(0.5*angleChg), 0, 0, sin(0.5*angleChg)};
+		rotAppend(rot, chg);
+	}
 	//ctl.roll
+	if(ctl.roll != 0){
+		double angleChg = ctl.roll*rollAngle;
+		quat chg = {cos(0.5*angleChg), sin(0.5*angleChg), 0, 0};
+		rotAppend(rot, chg);
+	}
 	//ctl.pitch
+	if(ctl.pitch != 0){
+		double angleChg = ctl.pitch*pitchAngle;
+		quat chg = {cos(0.5*angleChg), 0, sin(0.5*angleChg), 0};
+		rotAppend(rot, chg);
+	}
 }
 void Ship::addSpeed(){
 	pos[0]+=speed*(rot[0]*rot[0]+rot[1]*rot[1]-rot[2]*rot[2]-rot[3]*rot[3]);

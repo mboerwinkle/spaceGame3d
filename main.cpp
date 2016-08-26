@@ -45,23 +45,23 @@ void setupNetwork(){
 }
 static void makeEnvironment(){
 	int bogus;
-	uint64_t pos[3] = {50000, 50000, 50000};
+	uint64_t pos[3] = {500000, 500000, 500000};
 	double rot[4] = {1, 0, 0, 0};
-	pos[0] = 50500;
+	pos[0] = 500500;
 	new Ship(pos, rot, 0, &bogus);
-	pos[0] = 49500;
+	pos[0] = 499500;
 	new Ship(pos, rot, 0, &bogus);
-	pos[0] = 50000;
-	pos[1] = 50500;
+	pos[0] = 500000;
+	pos[1] = 500500;
 	new Ship(pos, rot, 0, &bogus);
-	pos[1] = 49500;
+	pos[1] = 499500;
 	new Ship(pos, rot, 0, &bogus);
-	pos[1] = 50000;
-	pos[2] = 50500;
+	pos[1] = 500000;
+	pos[2] = 500500;
 	new Ship(pos, rot, 0, &bogus);
-	pos[2] = 49500;
+	pos[2] = 499500;
 	new Ship(pos, rot, 0, &bogus);
-	pos[2] = 50000;
+	pos[2] = 500000;
 }
 void loop(){
 	while(1){

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -9,41 +10,49 @@
 
 int sockfd;
 struct sockaddr_in recvAddr, sendAddr;
-void startNetwork(char* ip);
+void startNetwork(char* ip, int port);
 void handleNetwork();
 char localhost[10] = "127.0.0.1";
 int main(int argc, char** argv){
-	if(argc != 2){
-		startNetwork(localhost);
+	if(argc == 1){
+		startNetwork(localhost, 5999);
+	}else if(argc == 2){
+		startNetwork(localhost, atoi(argv[1]));
+	}else if(argc == 3) {
+		startNetwork(argv[1], atoi(argv[2]));
 	}else{
-		startNetwork(argv[1]);
+		puts("Usage: ./run [[server ip] port]");
 	}
 	initGfx();
 	while(1){
-		puts("ping!");
 		handleNetwork();
 	}
 	quitGfx();
 	return 0;
 }
-void startNetwork(char* ip){
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+void startNetwork(char* ip, int port){
+	if (-1 == (sockfd = socket(AF_INET, SOCK_DGRAM, 0))) {
+		puts("Couldn't get socket!!!");
+	}
 
 	sendAddr.sin_family = AF_INET;
 	sendAddr.sin_port = htons(6000);
 	inet_aton(ip, &sendAddr.sin_addr);
 
 	recvAddr.sin_family = AF_INET;
-	recvAddr.sin_port = htons(5999);
+	recvAddr.sin_port = htons(port);
 	recvAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	bind(sockfd, (struct sockaddr*)&recvAddr, sizeof(recvAddr));
-	sendto(sockfd, "joining\0", sizeof("joining\0"), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
+	if (bind(sockfd, (struct sockaddr*)&recvAddr, sizeof(recvAddr))) {
+		puts("Couldn't listen for things!");
+	}
+	char alert[] = "joining\0";
+	memcpy(alert+7, &recvAddr.sin_port, 2);
+	sendto(sockfd, alert, sizeof(alert), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
 	sendto(sockfd, "SPN\0", sizeof("SPN\0"), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
 }
 void handleNetwork(){
 	//Don't really want something potentially large on the stack, therefore static
 	static char msg[MSGSIZE];
 	int len = recvfrom(sockfd, msg, MSGSIZE, 0, NULL, NULL);
-	puts("pong");
 	netParse(msg, len);
 }

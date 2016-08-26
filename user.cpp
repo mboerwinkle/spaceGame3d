@@ -4,9 +4,9 @@
 #include "def.h"
 #include "ship.h"
 #include "user.h"
-User::User(unsigned long ip){
+User::User(unsigned long ip, uint16_t port){
 	addr.sin_family=AF_INET;
-	addr.sin_port=htons(5999);
+	addr.sin_port=port;
 	addr.sin_addr.s_addr=ip;
 }
 void User::sendUserData(){
@@ -23,6 +23,9 @@ void User::sendUserData(){
 	unsigned int msgUsed = 3;
 	memcpy(msg+msgUsed, &tickCount, sizeof(unsigned int));
 	msgUsed+=sizeof(unsigned int);
+	unsigned int* shipsUsed = (unsigned int*)(msg+msgUsed);
+	*shipsUsed = 0;
+	msgUsed+=sizeof(unsigned int);//this one is for the number of ships in the packet.
 	for(int impShipIdx = 0; impShipIdx < myShip->myBubble->closeImportant.len; impShipIdx++){
 		targ = shipList[myShip->myBubble->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
 		for(int x = 0; x<targ->myBubble->shipIdx.len; x++){
@@ -30,16 +33,20 @@ void User::sendUserData(){
 			msgUsed+=sizeof(point);
 			memcpy(msg+msgUsed, shipList[targ->myBubble->shipIdx.list[x]]->rot, sizeof(quat));
 			msgUsed+=sizeof(quat);
+			(*shipsUsed)++;
 			if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
 				sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
 				char msg[MSGSIZE] = "SCN";
 				int msgUsed = 3;
 				memcpy(msg+msgUsed, &tickCount, sizeof(unsigned int));
 				msgUsed+=sizeof(unsigned int);
+				shipsUsed = (unsigned int*)(msg+msgUsed);
+				*shipsUsed = 0;
+				msgUsed+=sizeof(unsigned int);
 			}
 		}
 	}
-	if(msgUsed > 3+sizeof(unsigned int)){
+	if(msgUsed > 3+2*sizeof(unsigned int)){
 		sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
 	}
 }

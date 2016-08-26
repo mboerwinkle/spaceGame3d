@@ -22,8 +22,13 @@ void drawShip(point where) {
 	GLfloat red = 1.0, green = 0.2, blue = 0.0;
 
 	glPushMatrix();
-	glTranslatef((where[0]-50000)/100.0, (where[1]-50000)/100.0, (where[2]-50000)/100.0);
-	printf("Translate to (%f, %f, %f)\n", (where[0]-50000)/100.0, (where[1]-50000)/100.0, (where[2]-50000)/100.0);
+	float pos[3];
+	int i;
+	for (i = 0; i < 3; i++) {
+		pos[i] = ((int64_t)where[i]-500000)/100.0;
+	}
+	glTranslatef(pos[0], pos[1], pos[2]);
+	printf("Translate to (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
 	/*
 	glRotatef(290.0, 1.0, 0.0, 0.0);
 	glRotatef(planes[i].angle, 0.0, 0.0, 1.0);
@@ -73,11 +78,16 @@ void initGfx() {
 	}
 	context = SDL_GL_CreateContext(window);
 	glClearColor(0, 0, 0, 1);
+	//Occlusion is a thing
 	glEnable(GL_DEPTH_TEST);
-	/* setup OpenGL state */
+	//Edit the projection matrix
 	glMatrixMode(GL_PROJECTION);
+	//This multiplies a specially designed matrix onto the selected one
 	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 20);
+	//Edit the modelview matrix (The "default" matrix)
 	glMatrixMode(GL_MODELVIEW);
+	//The default plane model requires each polygon to be a flat color to look right
+	glShadeModel(GL_FLAT);
 }
 
 void quitGfx() {

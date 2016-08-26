@@ -13,16 +13,17 @@ void netParse(char* msg, int len){
 	}else if(!strcmp(prefix, "TXT")){
 		printf("%s\n", msg);
 	}else if(!strcmp(prefix, "SCN")){
-		puts("Got scan!");
+		printf("%d ships\n", *((unsigned int*)(msg+3+sizeof(unsigned int))));
 		unsigned int thing = *(unsigned int*)(msg+3);
 		if(thing != lastFrame){
 			lastFrame = thing;
 			gfxClear();
 		}
-		int msgUsed = 3+sizeof(thing);
+		int msgUsed = 3+sizeof(unsigned int)*2;
 #define stepSize (sizeof(point)+sizeof(quat))
 		while(msgUsed + (int)stepSize < len){
-			drawShip((uint64_t*)(msg + msgUsed));
+			uint64_t* vars = (uint64_t*)(msg + msgUsed);
+			drawShip(vars);
 			msgUsed += stepSize;
 		}
 		gfxFlip();

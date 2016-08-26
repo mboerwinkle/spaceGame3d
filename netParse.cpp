@@ -8,9 +8,14 @@
 void netParse(int userIdx, char* msg){
 	char prefix[4] = {msg[0], msg[1], msg[2], 0};
 	if(!strcmp(prefix, "CTL")){
-		//overwrite control 
+		if(userList[userIdx]->shipIdx == -1){
+			puts("user tried to send controls without owning a ship.");
+			return;
+		}
+		controls* myControls = &(shipList[userList[userIdx]->shipIdx]->ctl);
+		memcpy(myControls, msg+3, sizeof(controls));
 	}else if(!strcmp(prefix, "TXT")){
-		//text
+		printf("User%d: %s\n", userIdx, msg+3);
 	}else if(!strcmp(prefix, "SPN")){
 		puts("Spawning");
 		point loc = {500000, 500000, 500000};

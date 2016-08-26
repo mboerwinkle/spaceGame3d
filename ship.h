@@ -1,5 +1,6 @@
 #ifndef SHIP_H
 #define SHIP_H
+#include <math.h>
 #include "dataTypes.h"
 #include "bubble.h"
 #include "def.h"
@@ -15,6 +16,9 @@ public:
 	int maxSpeed = 100;
 	int accel = 10;
 	int decel = 10;
+	double rollAngle = M_PI/32;//in radians
+	double yawAngle = M_PI/32;
+	double pitchAngle = M_PI/32;
 	int index;
 	int important;
 	Bubble* myBubble = NULL;

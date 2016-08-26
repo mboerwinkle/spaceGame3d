@@ -1,7 +1,7 @@
 #ifndef GFX_H
 #define GFX_H
 
-#include "../dataTypes.h"
+#include "dataTypes.h"
 
 extern void drawShip(point where);
 

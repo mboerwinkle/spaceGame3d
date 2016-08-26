@@ -11,15 +11,15 @@ unsigned long int chebDist(Ship* one, Ship* two){
 	}else{
 		dist = two->pos[0]-one->pos[0];
 	}
-	if(one->pos[0]>two->pos[0]){
-		dist1 = one->pos[0]-two->pos[0];
+	if(one->pos[1]>two->pos[1]){
+		dist1 = one->pos[1]-two->pos[1];
 	}else{
-		dist1 = two->pos[0]-one->pos[0];
+		dist1 = two->pos[1]-one->pos[1];
 	}
-	if(one->pos[0]>two->pos[0]){
-		dist2 = one->pos[0]-two->pos[0];
+	if(one->pos[2]>two->pos[2]){
+		dist2 = one->pos[2]-two->pos[2];
 	}else{
-		dist2 = two->pos[0]-one->pos[0];
+		dist2 = two->pos[2]-one->pos[2];
 	}
 	if(dist1 > dist){
 		dist=dist1;
