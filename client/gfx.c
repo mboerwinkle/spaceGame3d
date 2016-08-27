@@ -15,6 +15,7 @@
 #include <GL/gl.h>
 #include <SDL2/SDL.h>
 #include "gfx.h"
+#include "quatOps.h"
 
 #define v3f glVertex3f  /* v3f was the short IRIS GL name for glVertex3f */
 
@@ -22,24 +23,26 @@ void drawShip(point where) {
 	GLfloat red = 1.0, green = 0.2, blue = 0.0;
 
 	glPushMatrix();
-	float pos[3];
+	double rotMatrix[16];
+	quat revRot = {myRot[0], myRot[1], myRot[2], myRot[3]};
+	generateRotationMatrix(revRot, rotMatrix);
 	int i;
+	float pos[3];
 	for (i = 0; i < 3; i++) {
 		if(where[i] > myPos[i]){//FIXME elegance
-			pos[i] = (where[i]-myPos[i])/100.0;
+			pos[i] = (where[i]-myPos[i])/-100.0;
 		}else{
-			pos[i] = (myPos[i]-where[i])/-100.0;
+			pos[i] = (myPos[i]-where[i])/100.0;
 		}
 	}
-	glRotatef(acos(myRot[0])*180, myRot[1], myRot[2], myRot[3]);
-	glTranslatef(pos[0], pos[1], pos[2]);
-//		printf("Translate to (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
-	/*
-	glRotatef(290.0, 1.0, 0.0, 0.0);
-	glRotatef(planes[i].angle, 0.0, 0.0, 1.0);
-	*/
-	glScalef(1.0 / 3.0, 1.0 / 4.0, 1.0 / 4.0); // WTF no, fix this
-	glTranslatef(0.0, -4.0, -1.5);
+	rotMatrix[12] = pos[0];
+	rotMatrix[13] = pos[1];
+	rotMatrix[14] = pos[2];
+	glMultMatrixd(rotMatrix);
+//	glTranslatef(0.0, -4.0, -1.5);
+//	glTranslatef(pos[0], pos[1], pos[2]);
+//	glRotatef(90, 0, 1, 0);
+	glScalef(1.0 / 4.0, 1.0 / 4.0, 1.0 / 3.0); // WTF no, fix this
 	glBegin(GL_TRIANGLE_STRIP);
 	/* left wing */
 	v3f(-7.0, 0.0, 2.0);

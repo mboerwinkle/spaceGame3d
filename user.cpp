@@ -40,6 +40,6 @@ void User::sendUserData(){
 		}
 	}
 	if(msgUsed > 3+sizeof(unsigned int)*2){
-		sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
+		sendto(sockfd, msg, msgUsed+1, 0, (struct sockaddr*)&(addr), sizeof(addr));
 	}
 }

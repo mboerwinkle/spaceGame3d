@@ -15,9 +15,9 @@ int spKeyAction(SDL_Keycode key, int pressed){
 		case SDLK_a:
 			ctls.roll = -pressed;
 			return 1;
-//		case SDLK_s:
-//			ctls.accel = pressed;
-//			return 1;
+		case SDLK_s:
+			ctls.accel = -pressed;
+			return 1;
 		case SDLK_d:
 			ctls.roll = pressed;
 			return 1;

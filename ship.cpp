@@ -60,45 +60,36 @@ void Ship::applyControls(){
 	}
 	//math.stackexchange.com/questions/40164/how-do-you-rotate-a-vector-by-a-unit-quaternion#40169
 	if(ctl.yaw != 0){
-		quat axis = {0, 0, 0, 1};
+		double axis[3] = {0, 0, 1};
 		double angleChg = ctl.yaw*yawAngle;
-		rotVector(axis, rot);
+//		rotVector(axis, rot);
 		double newAngleChg = sin(0.5*angleChg);
-		for(int x = 1; x < 4; x++){
-			axis[x]*=newAngleChg;
-		}
-		axis[0] = cos(0.5*angleChg);
-		rotAppend(rot, axis);
+		quat addRot = {cos(0.5*angleChg), axis[0]*newAngleChg, axis[1]*newAngleChg, axis[2]*newAngleChg};
+		rotAppend(rot, addRot);
 	}
 	if(ctl.roll != 0){
-		quat axis = {0, 1, 0, 0};
+		double axis[3] = {1, 0, 0};
 		double angleChg = ctl.roll*rollAngle;
-		rotVector(axis, rot);
+//		rotVector(axis, rot);
 		double newAngleChg = sin(0.5*angleChg);
-		for(int x = 1; x < 4; x++){
-			axis[x]*=newAngleChg;
-		}
-		axis[0] = cos(0.5*angleChg);
-		rotAppend(rot, axis);
+		quat addRot = {cos(0.5*angleChg), axis[0]*newAngleChg, axis[1]*newAngleChg, axis[2]*newAngleChg};
+		rotAppend(rot, addRot);
 	}
 	if(ctl.pitch != 0){
-		quat axis = {0, 0, 1, 0};
+		double axis[3] = {0, 1, 0};
 		double angleChg = ctl.pitch*pitchAngle;
-		rotVector(axis, rot);
+//		rotVector(axis, rot);
 		double newAngleChg = sin(0.5*angleChg);
-		for(int x = 1; x < 4; x++){
-			axis[x]*=newAngleChg;
-		}
-		axis[0] = cos(0.5*angleChg);
-		rotAppend(rot, axis);
+		quat addRot = {cos(0.5*angleChg), axis[0]*newAngleChg, axis[1]*newAngleChg, axis[2]*newAngleChg};
+		rotAppend(rot, addRot);
 	}
 }
 void Ship::addSpeed(){
-	quat axis = {0, 1, 0, 0};
+	double axis[3] = {1, 0, 0};
 	rotVector(axis, rot);
-	pos[0]+=speed*axis[1];
-	pos[1]+=speed*axis[2];
-	pos[2]+=speed*axis[3];
+	pos[0]+=speed*axis[0];
+	pos[1]+=speed*axis[1];
+	pos[2]+=speed*axis[2];
 //	pos[0]+=speed*(rot[0]*rot[0]+rot[1]*rot[1]-rot[2]*rot[2]-rot[3]*rot[3]);
 //	pos[1]+=speed*(2*rot[0]*rot[3]+2*rot[1]*rot[2]);
 //	pos[2]+=speed*(-2*rot[0]*rot[2]+2*rot[1]*rot[3]);
