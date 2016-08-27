@@ -29,6 +29,7 @@ void Ship::tick(){
 	applyControls();
 	addSpeed();
 //	printf("%ld %ld %ld\n", pos[0], pos[1], pos[2]);
+//	printf("%lf %lf %lf %lf\n%lf\n", rot[0], rot[1], rot[2], rot[3], rot[0]*rot[0]+rot[1]*rot[1]+rot[2]*rot[2]+rot[3]*rot[3]);
 }
 void Ship::tickImportant(){//remember, this needs to be able to handle some frames where a bubble is in one bubble's closeImportant list but not reciprocated
 	if(!important){
@@ -57,28 +58,49 @@ void Ship::applyControls(){
 	else{
 		speed = maxSpeed*ctl.accel;
 	}
-	//ctl.yaw
+	//math.stackexchange.com/questions/40164/how-do-you-rotate-a-vector-by-a-unit-quaternion#40169
 	if(ctl.yaw != 0){
+		quat axis = {0, 0, 0, 1};
 		double angleChg = ctl.yaw*yawAngle;
-		quat chg = {cos(0.5*angleChg), 0, 0, sin(0.5*angleChg)};
-		rotAppend(rot, chg);
+		rotVector(axis, rot);
+		double newAngleChg = sin(0.5*angleChg);
+		for(int x = 1; x < 4; x++){
+			axis[x]*=newAngleChg;
+		}
+		axis[0] = cos(0.5*angleChg);
+		rotAppend(rot, axis);
 	}
-	//ctl.roll
 	if(ctl.roll != 0){
+		quat axis = {0, 1, 0, 0};
 		double angleChg = ctl.roll*rollAngle;
-		quat chg = {cos(0.5*angleChg), sin(0.5*angleChg), 0, 0};
-		rotAppend(rot, chg);
+		rotVector(axis, rot);
+		double newAngleChg = sin(0.5*angleChg);
+		for(int x = 1; x < 4; x++){
+			axis[x]*=newAngleChg;
+		}
+		axis[0] = cos(0.5*angleChg);
+		rotAppend(rot, axis);
 	}
-	//ctl.pitch
 	if(ctl.pitch != 0){
+		quat axis = {0, 0, 1, 0};
 		double angleChg = ctl.pitch*pitchAngle;
-		quat chg = {cos(0.5*angleChg), 0, sin(0.5*angleChg), 0};
-		rotAppend(rot, chg);
+		rotVector(axis, rot);
+		double newAngleChg = sin(0.5*angleChg);
+		for(int x = 1; x < 4; x++){
+			axis[x]*=newAngleChg;
+		}
+		axis[0] = cos(0.5*angleChg);
+		rotAppend(rot, axis);
 	}
 }
 void Ship::addSpeed(){
-	pos[0]+=speed*(rot[0]*rot[0]+rot[1]*rot[1]-rot[2]*rot[2]-rot[3]*rot[3]);
-	pos[1]+=speed*(2*rot[0]*rot[3]+2*rot[1]*rot[2]);
-	pos[2]+=speed*(-2*rot[0]*rot[2]+2*rot[1]*rot[3]);
+	quat axis = {0, 1, 0, 0};
+	rotVector(axis, rot);
+	pos[0]+=speed*axis[1];
+	pos[1]+=speed*axis[2];
+	pos[2]+=speed*axis[3];
+//	pos[0]+=speed*(rot[0]*rot[0]+rot[1]*rot[1]-rot[2]*rot[2]-rot[3]*rot[3]);
+//	pos[1]+=speed*(2*rot[0]*rot[3]+2*rot[1]*rot[2]);
+//	pos[2]+=speed*(-2*rot[0]*rot[2]+2*rot[1]*rot[3]);
 }
 

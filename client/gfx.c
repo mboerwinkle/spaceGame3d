@@ -31,6 +31,7 @@ void drawShip(point where) {
 			pos[i] = (myPos[i]-where[i])/-100.0;
 		}
 	}
+	glRotatef(acos(myRot[0])*180, myRot[1], myRot[2], myRot[3]);
 	glTranslatef(pos[0], pos[1], pos[2]);
 //		printf("Translate to (%f, %f, %f)\n", pos[0], pos[1], pos[2]);
 	/*
