@@ -25,13 +25,13 @@ int spKeyAction(SDL_Keycode key, int pressed){
 			ctls.pitch = -pressed;
 			return 1;
 		case SDLK_LEFT:
-			ctls.yaw = -pressed;
+			ctls.yaw = pressed;
 			return 1;
 		case SDLK_DOWN:
 			ctls.pitch = pressed;
 			return 1;
 		case SDLK_RIGHT:
-			ctls.yaw = pressed;
+			ctls.yaw = -pressed;
 			return 1;
 		default:
 			return 0;

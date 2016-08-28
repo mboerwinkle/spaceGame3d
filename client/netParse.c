@@ -23,6 +23,7 @@ void netParse(char* msg, int len){
 			gfxClear();
 			memcpy(myPos, msg+msgUsed, sizeof(point));
 			memcpy(myRot, msg+msgUsed+sizeof(point), sizeof(quat));
+			msgUsed+=stepSize;//FIXME should not actually happen
 		}
 		while(msgUsed + (int)stepSize < len){
 			uint64_t* vars = (uint64_t*)(msg + msgUsed);

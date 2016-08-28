@@ -19,7 +19,7 @@ void rotAppend(double* targ, double* append){
 	newTarg[3]=(W1 * Z2 + X1 * Y2 - Y1 * X2 + Z1 * W2);
 	double val = sqrt(newTarg[0]*newTarg[0]+newTarg[1]*newTarg[1]+newTarg[2]*newTarg[2]+newTarg[3]*newTarg[3]);
 	targ[0]=newTarg[0]/val;
-	targ[1]=newTarg[1]/val;
+	targ[1]=newTarg[1]/val;//FIXME efficency does not need to fix every tick
 	targ[2]=newTarg[2]/val;
 	targ[3]=newTarg[3]/val;
 }

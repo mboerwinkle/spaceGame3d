@@ -13,6 +13,7 @@
 #include <math.h>
 
 #include <GL/gl.h>
+#include <GL/glu.h>
 #include <SDL2/SDL.h>
 #include "gfx.h"
 #include "quatOps.h"
@@ -20,28 +21,33 @@
 #define v3f glVertex3f  /* v3f was the short IRIS GL name for glVertex3f */
 
 void drawShip(point where) {
+	glMatrixMode(GL_MODELVIEW);
 	GLfloat red = 1.0, green = 0.2, blue = 0.0;
 
 	glPushMatrix();
-	double rotMatrix[16];
-	quat revRot = {myRot[0], myRot[1], myRot[2], myRot[3]};
-	generateRotationMatrix(revRot, rotMatrix);
+//	quat revRot = {myRot[0], -myRot[1], -myRot[2], -myRot[3]};
+//	double multMatrix[16];
+//	generateRotationMatrix(revRot, multMatrix);
 	int i;
-	float pos[3];
+	double pos[3];
 	for (i = 0; i < 3; i++) {
 		if(where[i] > myPos[i]){//FIXME elegance
-			pos[i] = (where[i]-myPos[i])/-100.0;
+			pos[i] = (where[i]-myPos[i])/100.0;
 		}else{
-			pos[i] = (myPos[i]-where[i])/100.0;
+			pos[i] = (myPos[i]-where[i])/-100.0;
 		}
 	}
-	rotMatrix[12] = pos[0];
-	rotMatrix[13] = pos[1];
-	rotMatrix[14] = pos[2];
-	glMultMatrixd(rotMatrix);
+	double lookAt[3] = {1,0,0};
+	double upVector[3] = {0,0,1};
+	rotVector(lookAt, myRot);
+	rotVector(upVector, myRot);
+	
 //	glTranslatef(0.0, -4.0, -1.5);
-//	glTranslatef(pos[0], pos[1], pos[2]);
-//	glRotatef(90, 0, 1, 0);
+//	glRotated(-90, 0, 1, 0);
+	gluLookAt(0,0,0,lookAt[0], lookAt[1], lookAt[2], upVector[0], upVector[1], upVector[2]);
+	glTranslated(pos[0], pos[1], pos[2]);
+//	glLoadMatrixd(multMatrix);
+//	glRotated(acos(myRot[0])*-180, myRot[1], myRot[2], myRot[3]);
 	glScalef(1.0 / 4.0, 1.0 / 4.0, 1.0 / 3.0); // WTF no, fix this
 	glBegin(GL_TRIANGLE_STRIP);
 	/* left wing */
@@ -75,7 +81,6 @@ void gfxFlip() {
 }
 
 void initGfx() {
-	//No events etc. for now
 	SDL_Init(SDL_INIT_VIDEO);
 	window = SDL_CreateWindow("Space Game - 3D edition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 512, 512, SDL_WINDOW_OPENGL);
 	if (window == NULL) {
