@@ -23,14 +23,9 @@
 void drawShip(point where) {
 	glMatrixMode(GL_MODELVIEW);
 	GLfloat red = 1.0, green = 0.2, blue = 0.0;
-
 	glPushMatrix();
-//	quat revRot = {myRot[0], -myRot[1], -myRot[2], -myRot[3]};
-//	double multMatrix[16];
-//	generateRotationMatrix(revRot, multMatrix);
-	int i;
 	double pos[3];
-	for (i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; i++) {
 		if(where[i] > myPos[i]){//FIXME elegance
 			pos[i] = (where[i]-myPos[i])/100.0;
 		}else{
@@ -43,11 +38,8 @@ void drawShip(point where) {
 	rotVector(upVector, myRot);
 	
 //	glTranslatef(0.0, -4.0, -1.5);
-//	glRotated(-90, 0, 1, 0);
 	gluLookAt(0,0,0,lookAt[0], lookAt[1], lookAt[2], upVector[0], upVector[1], upVector[2]);
 	glTranslated(pos[0], pos[1], pos[2]);
-//	glLoadMatrixd(multMatrix);
-//	glRotated(acos(myRot[0])*-180, myRot[1], myRot[2], myRot[3]);
 	glScalef(1.0 / 4.0, 1.0 / 4.0, 1.0 / 3.0); // WTF no, fix this
 	glBegin(GL_TRIANGLE_STRIP);
 	/* left wing */

@@ -17,18 +17,29 @@ void rotAppend(double* targ, double* append){
 	newTarg[1]=(W1 * X2 + X1 * W2 + Y1 * Z2 - Z1 * Y2);
 	newTarg[2]=(W1 * Y2 - X1 * Z2 + Y1 * W2 + Z1 * X2);
 	newTarg[3]=(W1 * Z2 + X1 * Y2 - Y1 * X2 + Z1 * W2);
-	double val = sqrt(newTarg[0]*newTarg[0]+newTarg[1]*newTarg[1]+newTarg[2]*newTarg[2]+newTarg[3]*newTarg[3]);
-	targ[0]=newTarg[0]/val;
-	targ[1]=newTarg[1]/val;
-	targ[2]=newTarg[2]/val;
-	targ[3]=newTarg[3]/val;
+	quatNormalize(newTarg);//FIXME efficency does not need to fix every tick
+
+	targ[0]=newTarg[0];
+	targ[1]=newTarg[1];
+	targ[2]=newTarg[2];
+	targ[3]=newTarg[3];
+}
+double quatLen(quat r){
+	return sqrt(r[0]*r[0]+r[1]*r[1]+r[2]*r[2]+r[3]*r[3]);
+}
+void quatNormalize(quat r){
+	double val = quatLen(r);
+	r[0]/=val;
+	r[1]/=val;
+	r[2]/=val;
+	r[3]/=val;
 }
 void rotVector(double* uVec, quat rot){
 	double M[16];
 	double res[3];
 	generateRotationMatrix(rot, M);//FIXME efficency pass matrix
-	res[0] = M[0]*uVec[0]+M[4]*uVec[1]+M[8]*uVec[2];
-	res[1] = M[1]*uVec[0] + M[5]*uVec[1] + M[9]*uVec[2];
+	res[0] = M[0]*uVec[0] + M[4]*uVec[1] +  M[8]*uVec[2];
+	res[1] = M[1]*uVec[0] + M[5]*uVec[1] +  M[9]*uVec[2];
 	res[2] = M[2]*uVec[0] + M[6]*uVec[1] + M[10]*uVec[2];
 	uVec[0] = res[0];
 	uVec[1] = res[1];
