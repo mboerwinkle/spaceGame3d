@@ -62,26 +62,26 @@ void Ship::applyControls(){
 	if(ctl.yaw != 0){
 		double axis[3] = {0, 0, 1};
 		double angleChg = ctl.yaw*yawAngle;
-		rotVector(axis, rot);
+//		rotVector(axis, rot);
 		double newAngleChg = sin(0.5*angleChg);
 		quat addRot = {cos(0.5*angleChg), axis[0]*newAngleChg, axis[1]*newAngleChg, axis[2]*newAngleChg};
-		rotAppend(rot, addRot);
+		rotAppend(rot, addRot, rot);
 	}
 	if(ctl.roll != 0){
 		double axis[3] = {1, 0, 0};
 		double angleChg = ctl.roll*rollAngle;
-		rotVector(axis, rot);
+//		rotVector(axis, rot);
 		double newAngleChg = sin(0.5*angleChg);
 		quat addRot = {cos(0.5*angleChg), axis[0]*newAngleChg, axis[1]*newAngleChg, axis[2]*newAngleChg};
-		rotAppend(rot, addRot);
+		rotAppend(rot, addRot, rot);
 	}
 	if(ctl.pitch != 0){
 		double axis[3] = {0, 1, 0};
 		double angleChg = ctl.pitch*pitchAngle;
-		rotVector(axis, rot);
+//		rotVector(axis, rot);
 		double newAngleChg = sin(0.5*angleChg);
 		quat addRot = {cos(0.5*angleChg), axis[0]*newAngleChg, axis[1]*newAngleChg, axis[2]*newAngleChg};
-		rotAppend(rot, addRot);
+		rotAppend(rot, addRot, rot);
 	}
 }
 void Ship::addSpeed(){

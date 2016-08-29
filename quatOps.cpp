@@ -11,7 +11,7 @@
 #define X2 targ[1]
 #define Y2 targ[2]
 #define Z2 targ[3]//this is just to allow me to easily copy code from http://www.cprogramming.com/tutorial/3d/quaternions.html
-void rotAppend(double* targ, double* append){
+void rotAppend(double* targ, double* append, double* save){
 	quat newTarg;
 	newTarg[0]=(W1 * W2 - X1 * X2 - Y1 * Y2 - Z1 * Z2);
 	newTarg[1]=(W1 * X2 + X1 * W2 + Y1 * Z2 - Z1 * Y2);
@@ -19,10 +19,10 @@ void rotAppend(double* targ, double* append){
 	newTarg[3]=(W1 * Z2 + X1 * Y2 - Y1 * X2 + Z1 * W2);
 	quatNormalize(newTarg);//FIXME efficency does not need to fix every tick
 
-	targ[0]=newTarg[0];
-	targ[1]=newTarg[1];
-	targ[2]=newTarg[2];
-	targ[3]=newTarg[3];
+	save[0]=newTarg[0];
+	save[1]=newTarg[1];
+	save[2]=newTarg[2];
+	save[3]=newTarg[3];
 }
 double quatLen(quat r){
 	return sqrt(r[0]*r[0]+r[1]*r[1]+r[2]*r[2]+r[3]*r[3]);
@@ -35,7 +35,7 @@ void quatNormalize(quat r){
 	r[3]/=val;
 }
 void rotVector(double* uVec, quat rot){
-	double M[16];
+/*	double M[16];
 	double res[3];
 	generateRotationMatrix(rot, M);//FIXME efficency pass matrix
 	res[0] = M[0]*uVec[0] + M[4]*uVec[1] +  M[8]*uVec[2];
@@ -43,7 +43,14 @@ void rotVector(double* uVec, quat rot){
 	res[2] = M[2]*uVec[0] + M[6]*uVec[1] + M[10]*uVec[2];
 	uVec[0] = res[0];
 	uVec[1] = res[1];
-	uVec[2] = res[2];
+	uVec[2] = res[2];*/
+	quat pureVec = {0, uVec[0], uVec[1], uVec[2]};
+	quat revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
+	rotAppend(rot, pureVec, pureVec);
+	rotAppend(pureVec, revRot, pureVec);
+	uVec[0] = pureVec[1];
+	uVec[1] = pureVec[2];
+	uVec[2] = pureVec[3];//FIXME memcpy
 }
 /*
 M[0]  M[4]  M[8]  M[12]
