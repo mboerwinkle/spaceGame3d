@@ -47,10 +47,10 @@ void generateRotationMatrix(quat rot, double *M){
 	M[3] = 0;
 	M[4] = 2*rot[1]*rot[2]-2*rot[0]*rot[3];
 	M[5] = 1-2*rot[1]*rot[1]-2*rot[3]*rot[3];
-	M[6] = 2*rot[2]*rot[3]-2*rot[0]*rot[1];
+	M[6] = 2*rot[2]*rot[3]+2*rot[0]*rot[1];
 	M[7] = 0;
 	M[8] = 2*rot[1]*rot[3]+2*rot[0]*rot[2];
-	M[9] = 2*rot[2]*rot[3]+2*rot[0]*rot[1];
+	M[9] = 2*rot[2]*rot[3]-2*rot[0]*rot[1];
 	M[10] = 1-2*rot[1]*rot[1]-2*rot[2]*rot[2];
 	M[11] = 0;
 	M[12] = 0;
