@@ -24,6 +24,11 @@ void User::sendUserData(){
 	unsigned int* shipsUsed = (unsigned int*)(msg+3+sizeof(unsigned int));
 	*shipsUsed = 0;
 	unsigned int msgUsed = 3+sizeof(unsigned int)*2;
+	memcpy(msg+msgUsed, myShip->pos, sizeof(point));//make sure your ship is first so that you get the proper pov
+	msgUsed+=sizeof(point);
+	memcpy(msg+msgUsed, myShip->rot, sizeof(quat));
+	msgUsed+=sizeof(quat);
+	(*shipsUsed)++;
 	for(int impShipIdx = 0; impShipIdx < myShip->myBubble->closeImportant.len; impShipIdx++){
 		targ = shipList[myShip->myBubble->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
 		for(int x = 0; x<targ->myBubble->shipIdx.len; x++){
@@ -33,7 +38,7 @@ void User::sendUserData(){
 			msgUsed+=sizeof(quat);
 			(*shipsUsed)++;
 			if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
-				sendto(sockfd, msg, msgUsed+1, 0, (struct sockaddr*)&(addr), sizeof(addr));
+				sendto(sockfd, msg, msgUsed+1, 0, (struct sockaddr*)&(this->addr), sizeof(this->addr));
 				(*shipsUsed) = 0;
 				msgUsed = 3+sizeof(unsigned int)*2;
 			}

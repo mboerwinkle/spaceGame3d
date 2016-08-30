@@ -1,8 +1,8 @@
 go through and fix FIXME's
 reduce turning at faster speeds.
-make some images?
 actually test bubble stuff
 handle going off of the edge
 make sure rotations work as they should
 make ship and user lists reuse free'd spots (maybe do this after making sure everything handles ships that no longer exist. would simplify it extremely)
+make your ship only gets sent once. (I send twice now to assure that the pov ship is first every tick)
 make sure everything can handle ships that no longer exist/are different now
