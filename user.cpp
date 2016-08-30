@@ -4,9 +4,9 @@
 #include "def.h"
 #include "ship.h"
 #include "user.h"
-User::User(unsigned long ip, uint16_t port){
+User::User(unsigned long ip){
 	addr.sin_family=AF_INET;
-	addr.sin_port=port;
+	addr.sin_port=htons(5999);
 	addr.sin_addr.s_addr=ip;
 }
 void User::sendUserData(){
@@ -33,7 +33,7 @@ void User::sendUserData(){
 			msgUsed+=sizeof(quat);
 			(*shipsUsed)++;
 			if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
-				sendto(sockfd, msg, msgUsed, 0, (struct sockaddr*)&(addr), sizeof(addr));
+				sendto(sockfd, msg, msgUsed+1, 0, (struct sockaddr*)&(addr), sizeof(addr));
 				(*shipsUsed) = 0;
 				msgUsed = 3+sizeof(unsigned int)*2;
 			}

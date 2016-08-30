@@ -6,7 +6,7 @@
 #define USER_H
 class User{
 public:
-	User(unsigned long ip, uint16_t port);
+	User(unsigned long ip);
 	struct sockaddr_in addr;
 	int shipIdx = -1;//client sends signal to connect to a ship
 	void sendUserData();

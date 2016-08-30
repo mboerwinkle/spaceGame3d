@@ -21,11 +21,11 @@ int main(int argc, char** argv){
 	if(argc == 1){
 		startNetwork(localhost, 5999);
 	}else if(argc == 2){
-		startNetwork(localhost, atoi(argv[1]));
-	}else if(argc == 3) {
-		startNetwork(argv[1], atoi(argv[2]));
+		startNetwork(argv[1], 5999);
+//	}else if(argc == 3) {
+//		startNetwork(argv[1], atoi(argv[2]));
 	}else{
-		puts("Usage: ./cli.out [[server ip] port]");
+		puts("Usage: ./cli.out [server ip]");
 	}
 	initGfx();
 	while(1){
@@ -54,7 +54,6 @@ void startNetwork(char* ip, int port){
 		puts("Couldn't listen for things!");
 	}
 	char alert[] = "joining\0";
-	memcpy(alert+7, &recvAddr.sin_port, 2);
 	sendto(sockfd, alert, sizeof(alert), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
 	sendto(sockfd, "SPN\0", sizeof("SPN\0"), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
 }

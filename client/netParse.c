@@ -9,9 +9,7 @@ static unsigned int lastFrame = 69;
 
 void netParse(char* msg, int len){
 	char prefix[4] = {msg[0], msg[1], msg[2], 0};
-	if(!strcmp(prefix, "CTL")){
-		//overwrite control 
-	}else if(!strcmp(prefix, "TXT")){
+	if(!strcmp(prefix, "TXT")){
 		printf("%s\n", msg);
 	}else if(!strcmp(prefix, "SCN")){
 //		printf("%d ships\n", *((unsigned int*)(msg+3+sizeof(unsigned int))));
