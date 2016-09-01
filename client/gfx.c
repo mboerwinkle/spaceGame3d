@@ -22,7 +22,7 @@
 
 void drawShip(point where, quat rot) {
 	glMatrixMode(GL_MODELVIEW);
-	GLfloat red = 1.0, green = 0.2, blue = 0.0;
+	GLfloat red = 0.4, green = 0.5, blue = 0.6;
 	glPushMatrix();
 	double pos[3];
 	for (int i = 0; i < 3; i++) {
@@ -32,6 +32,7 @@ void drawShip(point where, quat rot) {
 			pos[i] = (myPos[i]-where[i])/-100.0;
 		}
 	}
+	//FIXME speed. use of glTranslated is slow.
 	quat revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
 	double rotMatrix[16];
 	generateRotationMatrix(revRot, rotMatrix);
@@ -45,7 +46,7 @@ void drawShip(point where, quat rot) {
 	glTranslated(pos[0], pos[1], pos[2]);
 	glMultMatrixd(rotMatrix);
 	glRotated(-90, 0, 0, 1);
-	glScalef(1.0 / 4.0, 1.0 / 4.0, 1.0 / 3.0); // WTF no, fix this
+	glScalef(1.0 / 4.0, 1.0 / 4.0, 1.0 / 3.0); //FIXME WTF no, fix this
 	glBegin(GL_TRIANGLE_STRIP);
 	/* left wing */
 	v3f(-7.0, 0.0, 2.0);
@@ -97,7 +98,7 @@ void initGfx() {
 	//Edit the modelview matrix (The "default" matrix)
 	glMatrixMode(GL_MODELVIEW);
 	//The default plane model requires each polygon to be a flat color to look right
-	glShadeModel(GL_FLAT);
+	glShadeModel(GL_FLAT);//FIXME not anything to fix here. just mentioning that GL_SMOOTH looks hella nice.
 }
 
 void quitGfx() {

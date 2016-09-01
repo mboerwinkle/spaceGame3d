@@ -8,6 +8,8 @@ User::User(unsigned long ip){
 	addr.sin_family=AF_INET;
 	addr.sin_port=htons(5999);
 	addr.sin_addr.s_addr=ip;
+	userList[userCount] = this;
+	userCount++;
 }
 void User::sendUserData(){
 	if(shipList[shipIdx] == NULL){

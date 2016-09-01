@@ -29,8 +29,7 @@ void* netListen(void *null){
 		}
 		if(!found){
 			if(strncmp("joining", msg, 7)) continue;
-			userList[userCount] = new User(incomingAddr.sin_addr.s_addr);
-			userCount++;
+			new User(incomingAddr.sin_addr.s_addr);
 		}
 	}
 }

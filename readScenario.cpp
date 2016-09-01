@@ -3,6 +3,7 @@
 #include "readScenario.h"
 #include "dataTypes.h"
 #include "ship.h"
+#include "ai.h"
 
 void readScenario(char *filename){
 	FILE* fp = fopen(filename, "r");
@@ -16,8 +17,10 @@ void readScenario(char *filename){
 	quat rot;
 	int important;
 	int speed;
+	int index;
 	for(int x = 0; x < numShips; x++){
 		fscanf(fp, "%d %ld %ld %ld %lf %lf %lf %lf %d", &important, &(loc[0]), &(loc[1]), &(loc[2]), &(rot[0]), &(rot[1]), &(rot[2]), &(rot[3]), &speed);
-		new Ship(loc, rot, important, NULL);
+		new Ship(loc, rot, important, &index);
+		new AI(index);
 	}
 }
