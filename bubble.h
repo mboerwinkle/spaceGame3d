@@ -10,7 +10,6 @@ public:
 	void updateOrphans();
 	IntList shipIdx;
 	IntList closeImportant;
-	int len = 0;
 	Ship *owner;
 private:
 	void addOrphans();

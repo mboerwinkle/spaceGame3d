@@ -45,6 +45,15 @@ void rotVector(double* uVec, quat rot){
 	uVec[1] = pureVec[2];
 	uVec[2] = pureVec[3];
 }
+void rotPoint(int64_t* loc, quat rot){//Inaccurate. Use rotation matrices if you want accuracy.
+	quat pureVec = {0, (double)loc[0], (double)loc[1], (double)loc[2]};
+	quat revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
+	rotAppend(rot, pureVec, pureVec);
+	rotAppend(pureVec, revRot, pureVec);
+	loc[0] = pureVec[1];
+	loc[1] = pureVec[2];
+	loc[2] = pureVec[3];
+}
 /*
 M[0]  M[4]  M[8]  M[12]
 M[1]  M[5]  M[9]  M[13]
