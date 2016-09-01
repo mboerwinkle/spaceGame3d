@@ -30,6 +30,7 @@ void netParse(char* msg, int len){
 			msgUsed += stepSize;
 			shipCount++;
 		}
+		//this was the source of the problems. Should only be called if it is the last packet.
 		gfxFlip();
 	}
 }
