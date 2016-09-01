@@ -1,9 +1,9 @@
 make packets that are split up have a "is not the last packet" notifier at the end of non-last packets. Worst case if last packet gets dropped is two frames get mashed together.
 go through and fix FIXME's
+send rotations as floats to client (save 16 bytes per ship)
 reduce turning at faster speeds.
 actually test bubble stuff
 handle going off of the edge
-make sure rotations work as they should
 make ship and user lists reuse free'd spots (maybe do this after making sure everything handles ships that no longer exist. would simplify it extremely)
 make your ship only gets sent once. (I send twice now to assure that the pov ship is first every tick)
 make sure everything can handle ships that no longer exist/are different now

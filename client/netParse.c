@@ -25,8 +25,9 @@ void netParse(char* msg, int len){
 		}
 		int shipCount = 0;
 		while(msgUsed + (int)stepSize < len){
-			uint64_t* vars = (uint64_t*)(msg + msgUsed);
-			drawShip(vars);
+			uint64_t* loc = (uint64_t*)(msg + msgUsed);
+			double* rot = (double*)(msg + msgUsed + sizeof(point));
+			drawShip(loc, rot);
 			msgUsed += stepSize;
 			shipCount++;
 		}

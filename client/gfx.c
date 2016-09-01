@@ -20,7 +20,7 @@
 
 #define v3f glVertex3f  /* v3f was the short IRIS GL name for glVertex3f */
 
-void drawShip(point where) {
+void drawShip(point where, quat rot) {
 	glMatrixMode(GL_MODELVIEW);
 	GLfloat red = 1.0, green = 0.2, blue = 0.0;
 	glPushMatrix();
@@ -32,6 +32,9 @@ void drawShip(point where) {
 			pos[i] = (myPos[i]-where[i])/-100.0;
 		}
 	}
+	quat revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
+	double rotMatrix[16];
+	generateRotationMatrix(revRot, rotMatrix);
 	double lookAt[3] = {1,0,0};
 	double upVector[3] = {0,0,1};
 	rotVector(lookAt, myRot);
@@ -40,6 +43,8 @@ void drawShip(point where) {
 //	glTranslatef(0.0, -4.0, -1.5);
 	gluLookAt(0,0,0,lookAt[0], lookAt[1], lookAt[2], upVector[0], upVector[1], upVector[2]);
 	glTranslated(pos[0], pos[1], pos[2]);
+	glMultMatrixd(rotMatrix);
+	glRotated(-90, 0, 0, 1);
 	glScalef(1.0 / 4.0, 1.0 / 4.0, 1.0 / 3.0); // WTF no, fix this
 	glBegin(GL_TRIANGLE_STRIP);
 	/* left wing */
