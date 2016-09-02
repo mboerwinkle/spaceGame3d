@@ -14,11 +14,7 @@ AI::AI(int shipIdx){
 	aiCount++;
 }
 void AI::tick(){
-	if(important){//since this is the only guy who can really see things, he sets objectives for everyone in his bubble (including himself)
-		for(int x = 0; x < shipList[shipIdx]->myBubble->shipIdx.len; x++){
-			
-		}
-	}
+	//bubbles assign objectives
 	//this section is about fulfilling objectives. All ships need to do this.
 	//FIXME set precision that location objectives need to be fulfilled to.
 	//FIXME set objective numbers in defines.
@@ -46,16 +42,21 @@ int AI::go(point loc){
 	point* myLoc = &(shipList[shipIdx]->pos);
 	signedPoint relLoc = {(int64_t)(loc[0]-(*myLoc)[0]), (int64_t)(loc[1]-(*myLoc)[1]), (int64_t)(loc[2]-(*myLoc)[2])};
 	rotPoint(relLoc, shipList[shipIdx]->rot);
-	if(relLoc[2] > 0){
+	printf("%ld %ld %ld\n", relLoc[0], relLoc[1], relLoc[2]);
+	if(relLoc[2] < 0){
 		myCtl->pitch = 1;
 	}else{
 		myCtl->pitch = -1;
 	}
-	if(relLoc[1] > 0){
-		myCtl->roll = 1;
+	if((relLoc[1] > 0)){
+		myCtl->yaw = 1;
 	}else{
-		myCtl->roll = -1;
+		myCtl->yaw = -1;
 	}
+//	if(relLoc[0] < 0){
+//		myCtl->yaw*=-1;
+//		myCtl->pitch*=-1;
+//	}
 	return 0;//FIXME
 }
 int AI::attack(Ship* targ){

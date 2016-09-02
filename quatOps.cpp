@@ -47,12 +47,14 @@ void rotVector(double* uVec, quat rot){
 }
 void rotPoint(int64_t* loc, quat rot){//Inaccurate. Use rotation matrices if you want accuracy.
 	quat pureVec = {0, (double)loc[0], (double)loc[1], (double)loc[2]};
+	long int len = quatLen(pureVec);
+	quatNormalize(pureVec);
 	quat revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
 	rotAppend(rot, pureVec, pureVec);
 	rotAppend(pureVec, revRot, pureVec);
-	loc[0] = pureVec[1];
-	loc[1] = pureVec[2];
-	loc[2] = pureVec[3];
+	loc[0] = pureVec[1]*len;
+	loc[1] = pureVec[2]*len;
+	loc[2] = pureVec[3]*len;//FIXME speed
 }
 /*
 M[0]  M[4]  M[8]  M[12]
