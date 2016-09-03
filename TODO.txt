@@ -1,3 +1,4 @@
+make common reversed quaternion functions faster
 used signedPoint everywhere where I cobbled together a solution to avoid signage problems
 make packets that are split up have a "is not the last packet" notifier at the end of non-last packets. Worst case if last packet gets dropped is two frames get mashed together.
 go through and fix FIXME's

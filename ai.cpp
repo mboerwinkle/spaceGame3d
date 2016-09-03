@@ -6,6 +6,7 @@
 #include "quatOps.h"
 #include "chebDist.h"
 #include "ship.h"
+#include "user.h"
 #include "ai.h"
 AI::AI(int shipIdx){
 	this->shipIdx = shipIdx;
@@ -41,22 +42,34 @@ int AI::go(point loc){
 	controls *myCtl = &(shipList[shipIdx]->ctl);
 	point* myLoc = &(shipList[shipIdx]->pos);
 	signedPoint relLoc = {(int64_t)(loc[0]-(*myLoc)[0]), (int64_t)(loc[1]-(*myLoc)[1]), (int64_t)(loc[2]-(*myLoc)[2])};
-	rotPoint(relLoc, shipList[shipIdx]->rot);
-	printf("%ld %ld %ld\n", relLoc[0], relLoc[1], relLoc[2]);
-	if(relLoc[2] < 0){
-		myCtl->pitch = 1;
+	quat revRot = {shipList[shipIdx]->rot[0], -shipList[shipIdx]->rot[1], -shipList[shipIdx]->rot[2], -shipList[shipIdx]->rot[3]};
+	rotPoint(relLoc, revRot);
+	if(relLoc[2] > 0){
+		if(myCtl->pitch+0.1<1){
+			if(myCtl->pitch < 0){
+				myCtl->pitch += 0.5;//prevents overcorrecting
+			}else myCtl->pitch += 0.1;
+		}else myCtl->pitch = 1;
 	}else{
-		myCtl->pitch = -1;
+		if(myCtl->pitch-0.1>-1){
+			if(myCtl->pitch > 0){
+				myCtl->pitch -= 0.5;//prevents overcorrecting
+			}else myCtl->pitch -= 0.1;
+		}else myCtl->pitch = -1;
 	}
-	if((relLoc[1] > 0)){
-		myCtl->yaw = 1;
+	if((relLoc[1] < 0)){
+		if(myCtl->yaw+0.1<1){
+			if(myCtl->yaw < 0){
+				myCtl->yaw += 0.5;
+			}else myCtl->yaw += 0.1;
+		}else myCtl->yaw = 1;
 	}else{
-		myCtl->yaw = -1;
+		if(myCtl->yaw-0.1>-1){
+			if(myCtl->yaw > 0){
+				myCtl->yaw -= 0.5;
+			}else myCtl->yaw -= 0.1;
+		}else myCtl->yaw = -1;
 	}
-//	if(relLoc[0] < 0){
-//		myCtl->yaw*=-1;
-//		myCtl->pitch*=-1;
-//	}
 	return 0;//FIXME
 }
 int AI::attack(Ship* targ){
