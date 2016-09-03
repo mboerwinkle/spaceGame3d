@@ -13,6 +13,7 @@ public:
 	Ship(point pos, quat rot, int important, int* idx);
 
 	controls ctl;
+	short team = 1;//if (ship1.team)&(ship2.team), then dont attack
 	int maxSpeed = 5;
 	int accel = 10;
 	int decel = 10;
