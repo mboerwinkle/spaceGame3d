@@ -37,6 +37,32 @@ int spKeyAction(SDL_Keycode key, int pressed){
 			return 0;
 	}
 }
+int spJoyAxis(Uint8 axis, Sint16 value){
+	switch(axis){
+		case 0:
+			if(abs(value) < DEADZONE){
+				ctls.roll = 0;
+			}else ctls.roll = -value/CONTROLLERAXISMAX;
+			return 1;
+		case 1:
+			if(abs(value) < DEADZONE){
+				ctls.accel = 0;
+			}else ctls.accel = -value/CONTROLLERAXISMAX;
+			return 1;
+		case 4:
+			if(abs(value) < DEADZONE){
+				ctls.pitch = 0;
+			}else ctls.pitch = -value/CONTROLLERAXISMAX;
+			return 1;
+		case 3:
+			if(abs(value) < DEADZONE){
+				ctls.yaw = 0;
+			}else ctls.yaw = value/CONTROLLERAXISMAX;
+			return 1;
+		default:
+			return 0;
+	}
+}
 
 int handleEvents(){
 	int send = 0;//if controls need to be sent
@@ -50,6 +76,13 @@ int handleEvents(){
 		}
 		else if(evnt.type == SDL_KEYUP){
 			if(spKeyAction(evnt.key.keysym.sym, 0)) send = 1;
+		}
+		else if(evnt.type == SDL_JOYAXISMOTION){
+			if(spJoyAxis(evnt.jaxis.axis, evnt.jaxis.value)) send = 1;
+		}
+		else if(evnt.type == SDL_CONTROLLERBUTTONDOWN){
+		}
+		else if(evnt.type == SDL_CONTROLLERBUTTONUP){
 		}
 	}
 	if(send){

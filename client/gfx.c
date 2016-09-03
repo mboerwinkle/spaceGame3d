@@ -77,15 +77,19 @@ void gfxClear() {
 void gfxFlip() {
 	SDL_GL_SwapWindow(window);
 }
-
+int has_joystick = 0;
 void initGfx() {
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
 	window = SDL_CreateWindow("Space Game - 3D edition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 512, 512, SDL_WINDOW_OPENGL);
 	if (window == NULL) {
 		fputs("SDL2 window creation failed", stderr);
 		fputs(SDL_GetError(), stderr);
 		SDL_Quit();
 		return;
+	}
+	if(SDL_NumJoysticks() > 0){
+		SDL_JoystickOpen(0);
+		has_joystick = 1;
 	}
 	context = SDL_GL_CreateContext(window);
 	glClearColor(0, 0, 0, 1);
