@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "ship.h"
 #include "def.h"
+#include "ai.h"
 #include "bubble.h"
 #include "chebDist.h"
 Bubble::Bubble(Ship* owner){
@@ -30,5 +31,14 @@ void Bubble::makeOrphans(){
 			shipList[orphans.list[orphans.len-1]]->myBubble = 0;
 			x--;//and here too
 		}
+	}
+}
+void Bubble::assignTasks(){
+	Ship* currShip;
+	for(int x = 0; x < shipIdx.len; x++){
+		currShip = shipList[shipIdx.list[x]];
+		if(currShip->myAI == NULL) continue;//does not have an AI.
+		if(currShip->myAI->objective != -1) continue;//already has an objective
+		//assign
 	}
 }

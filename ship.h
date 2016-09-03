@@ -2,6 +2,7 @@
 #define SHIP_H
 #include <math.h>
 #include "dataTypes.h"
+#include "ai.h"
 #include "bubble.h"
 #include "def.h"
 #include "intList.h"
@@ -23,6 +24,7 @@ public:
 	int index;
 	int important;
 	Bubble* myBubble = NULL;
+	AI* myAI = NULL;
 	
 	int speed = 0;
 	point pos = {500000,500000,500000};

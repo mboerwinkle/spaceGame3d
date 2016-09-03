@@ -18,9 +18,10 @@ void readScenario(char *filename){
 	int important;
 	int speed;
 	int index;
+	Ship* newShip;
 	for(int x = 0; x < numShips; x++){
 		fscanf(fp, "%d %ld %ld %ld %lf %lf %lf %lf %d", &important, &(loc[0]), &(loc[1]), &(loc[2]), &(rot[0]), &(rot[1]), &(rot[2]), &(rot[3]), &speed);
-		new Ship(loc, rot, important, &index);
-		new AI(index);
+		newShip = new Ship(loc, rot, important, &index);
+		newShip->myAI = new AI(index);
 	}
 }

@@ -1,6 +1,8 @@
+#include "ship.h"
 #include "def.h"
 #ifndef AI_H
 #define AI_H
+class Ship;
 class AI{
 public:
 	AI(int shipIdx);
