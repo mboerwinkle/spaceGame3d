@@ -26,7 +26,7 @@ void AI::tick(){
 			objective = -1;
 		}
 	}else if(objective == 1){//go to objLoc, but do not set objective to -1 on arrival. try to stay in place instead.
-		circle(objLoc, shipList[shipIdx]->index*100);
+		circle(shipList[(shipList[shipIdx]->index+1)%shipCount]->pos, 100);
 	}else if(objective == 2){//attack shipList[objIdx]
 		if(chebDist(shipList[shipIdx], shipList[objIdx]) > BUBBLERAD){
 			objective = -1;
