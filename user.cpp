@@ -31,12 +31,12 @@ void User::sendUserData(){
 	memcpy(msg+msgUsed, myShip->rot, sizeof(quat));
 	msgUsed+=sizeof(quat);
 	(*shipsUsed)++;
-	for(int impShipIdx = 0; impShipIdx < myShip->myBubble->closeImportant.len; impShipIdx++){
-		targ = shipList[myShip->myBubble->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
-		for(int x = 0; x<targ->myBubble->shipIdx.len; x++){
-			memcpy(msg+msgUsed, shipList[targ->myBubble->shipIdx.list[x]]->pos, sizeof(point));
+	for(int impShipIdx = 0; impShipIdx < myShip->myBub->closeImportant.len; impShipIdx++){
+		targ = shipList[myShip->myBub->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
+		for(int x = 0; x<targ->myBub->shipIdx.len; x++){
+			memcpy(msg+msgUsed, shipList[targ->myBub->shipIdx.list[x]]->pos, sizeof(point));
 			msgUsed+=sizeof(point);
-			memcpy(msg+msgUsed, shipList[targ->myBubble->shipIdx.list[x]]->rot, sizeof(quat));
+			memcpy(msg+msgUsed, shipList[targ->myBub->shipIdx.list[x]]->rot, sizeof(quat));
 			msgUsed+=sizeof(quat);
 			(*shipsUsed)++;
 			if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed

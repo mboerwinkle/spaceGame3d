@@ -17,7 +17,7 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 	index = shipCount;
 	if(important){
 		importants.add(index);
-		myBubble = new Bubble(this);
+		myBub = new Bubble(this);
 		tickImportant();//this prevents an important ship from accidentally being added to a different ship's bubble instead of its own
 	}else{
 		orphans.add(index);
@@ -33,15 +33,15 @@ void Ship::tickImportant(){//remember, this needs to be able to handle some fram
 	if(!important){
 		puts("error blagrug");
 	}
-	myBubble->updateOrphans();
+	myBub->updateOrphans();
 	for(int x = 0; x < importants.len; x++){
-		if(chebDist(shipList[importants.list[x]], this) < 2*BUBBLERAD && -1 == myBubble->closeImportant.search(importants.list[x])){
-			myBubble->closeImportant.add(importants.list[x]);
+		if(chebDist(shipList[importants.list[x]], this) < 2*BUBBLERAD && -1 == myBub->closeImportant.search(importants.list[x])){
+			myBub->closeImportant.add(importants.list[x]);
 		}
 	}
-	for(int x = 0; x < myBubble->closeImportant.len; x++){
-		if(chebDist(shipList[myBubble->closeImportant.list[x]], this) > 2*BUBBLERAD){
-			myBubble->closeImportant.remove(x);
+	for(int x = 0; x < myBub->closeImportant.len; x++){
+		if(chebDist(shipList[myBub->closeImportant.list[x]], this) > 2*BUBBLERAD){
+			myBub->closeImportant.remove(x);
 			
 		}
 	}
@@ -57,6 +57,8 @@ void Ship::applyControls(){
 		speed = maxSpeed*ctl.accel;
 	}
 	//math.stackexchange.com/questions/40164/how-do-you-rotate-a-vector-by-a-unit-quaternion#40169
+	if(ctl.fire & 1){
+	}
 	if(ctl.yaw != 0){
 		double angleChg = ctl.yaw*yawAngle;
 		quat addRot = {cos(0.5*angleChg), 0, 0, sin(0.5*angleChg)};

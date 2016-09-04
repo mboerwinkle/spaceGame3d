@@ -26,7 +26,7 @@ void AI::tick(){
 			objective = -1;
 		}
 	}else if(objective == 1){//go to objLoc, but do not set objective to -1 on arrival. try to stay in place instead.
-		circle(shipList[(shipList[shipIdx]->index+1)%shipCount]->pos, 100);
+		circle(shipList[((shipList[shipIdx]->index+1)%shipCount)]->pos, 1000);
 	}else if(objective == 2){//attack shipList[objIdx]
 		if(chebDist(shipList[shipIdx], shipList[objIdx]) > BUBBLERAD){
 			objective = -1;
@@ -73,6 +73,9 @@ int AI::go(point loc){
 	return 0;//FIXME
 }
 int AI::attack(Ship* targ){
+//	signedPoint relLoc = {(int64_t)(loc[0]-(*myLoc)[0]), (int64_t)(loc[1]-(*myLoc)[1]), (int64_t)(loc[2]-(*myLoc)[2])};
+//	uint64_t dist = sqrt(relLoc[0]*relLoc[0]+relLoc[1]*relLoc[1]+relLoc[2]*relLoc[2]);
+//	if(dist > 
 	return 0;
 }
 void AI::circle(point loc, int rad){

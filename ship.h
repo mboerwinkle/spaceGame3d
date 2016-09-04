@@ -23,7 +23,8 @@ public:
 	double pitchAngle = M_PI/32;
 	int index;
 	int important;
-	Bubble* myBubble = NULL;
+	Bubble* myBub = NULL;//if this ship is important, this is a pointer to its bubble. otherwise unused.
+	int myImp = -1;//if this ship is important, unused. otherwise is the index of the ship whose bubble I am in.
 	AI* myAI = NULL;
 	
 	int speed = 0;

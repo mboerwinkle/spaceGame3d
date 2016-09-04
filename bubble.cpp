@@ -18,7 +18,7 @@ void Bubble::addOrphans(){
 		if(chebDist(shipList[orphans.list[x]], owner) < BUBBLERAD){
 			shipIdx.add(orphans.list[x]);
 			orphans.remove(x);
-			shipList[shipIdx.list[shipIdx.len-1]]->myBubble = this;
+			shipList[shipIdx.list[shipIdx.len-1]]->myImp = this->owner->index;//FIXME is this even stable?
 			x--;//FIXME could I get some validation on this fix?
 		}
 	}
@@ -28,7 +28,7 @@ void Bubble::makeOrphans(){
 		if(chebDist(shipList[shipIdx.list[x]], owner) > BUBBLERAD){
 			orphans.add(shipIdx.list[x]);
 			shipIdx.remove(x);
-			shipList[orphans.list[orphans.len-1]]->myBubble = 0;
+			shipList[orphans.list[orphans.len-1]]->myImp = -1;
 			x--;//and here too
 		}
 	}

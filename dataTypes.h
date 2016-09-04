@@ -9,6 +9,6 @@ typedef struct controls{
 	double yaw = 0;//-1 - 1
 	double roll = 0;//-1 - 1
 	double pitch = 0;//-1 - 1
-	int fire = 0;
+	int fire = 0;//this limits to 32 modules. doesnt really seem like a limit.
 }controls;
 #endif
