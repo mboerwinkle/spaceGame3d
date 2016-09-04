@@ -40,8 +40,6 @@ void drawShip(point where, quat rot) {
 	double upVector[3] = {0,0,1};
 	rotVector(lookAt, myRot);
 	rotVector(upVector, myRot);
-	
-//	glTranslatef(0.0, -4.0, -1.5);
 	gluLookAt(0,0,0,lookAt[0], lookAt[1], lookAt[2], upVector[0], upVector[1], upVector[2]);
 	glTranslated(pos[0], pos[1], pos[2]);
 	glMultMatrixd(rotMatrix);

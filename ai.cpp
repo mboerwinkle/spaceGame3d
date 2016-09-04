@@ -26,7 +26,7 @@ void AI::tick(){
 			objective = -1;
 		}
 	}else if(objective == 1){//go to objLoc, but do not set objective to -1 on arrival. try to stay in place instead.
-		go(objLoc);
+		circle(objLoc, shipList[shipIdx]->index*100);
 	}else if(objective == 2){//attack shipList[objIdx]
 		if(chebDist(shipList[shipIdx], shipList[objIdx]) > BUBBLERAD){
 			objective = -1;
@@ -76,5 +76,37 @@ int AI::attack(Ship* targ){
 	return 0;
 }
 void AI::circle(point loc, int rad){
+	controls *myCtl = &(shipList[shipIdx]->ctl);
+	point* myLoc = &(shipList[shipIdx]->pos);
+	signedPoint relLoc = {(int64_t)(loc[0]-(*myLoc)[0]), (int64_t)(loc[1]-(*myLoc)[1]), (int64_t)(loc[2]-(*myLoc)[2])};
+	quat revRot = {shipList[shipIdx]->rot[0], -shipList[shipIdx]->rot[1], -shipList[shipIdx]->rot[2], -shipList[shipIdx]->rot[3]};
+	rotPoint(relLoc, revRot);
+	if(relLoc[0]+rad > 0) relLoc[2]+=rad;
+	if(relLoc[2] > 0){
+		if(myCtl->pitch+0.1<1){
+			if(myCtl->pitch < 0){
+				myCtl->pitch += 0.5;//prevents overcorrecting
+			}else myCtl->pitch += 0.1;
+		}else myCtl->pitch = 1;
+	}else{
+		if(myCtl->pitch-0.1>-1){
+			if(myCtl->pitch > 0){
+				myCtl->pitch -= 0.5;//prevents overcorrecting
+			}else myCtl->pitch -= 0.1;
+		}else myCtl->pitch = -1;
+	}
+	if((relLoc[1] < 0)){
+		if(myCtl->roll+0.1<1){
+			if(myCtl->roll < 0){
+				myCtl->roll += 0.5;
+			}else myCtl->roll += 0.1;
+		}else myCtl->roll = 1;
+	}else{
+		if(myCtl->roll-0.1>-1){
+			if(myCtl->roll > 0){
+				myCtl->roll -= 0.5;
+			}else myCtl->roll -= 0.1;
+		}else myCtl->roll = -1;
+	}
 
 }
