@@ -34,6 +34,7 @@ Ship::~Ship(){
 	shipCount--;
 }
 void Ship::tick(){
+	if(myAI != NULL)myAI->tick();
 	applyControls();
 	addSpeed();
 }

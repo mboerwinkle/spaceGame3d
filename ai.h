@@ -6,6 +6,7 @@ class Ship;
 class AI{
 public:
 	AI(int shipIdx);
+	~AI();
 	int objective = 1;
 	int shipIdx;
 	int important;
@@ -20,6 +21,4 @@ private:
 	void circle(point loc, int rad);
 	//void mine(point loc);//Maybe something like: go to this location, if there are any asteroids near mine till sated, return to point home and set objective to -1
 };
-extern AI* aiList[MAXSHIPS];
-extern int aiCount;
 #endif

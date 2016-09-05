@@ -11,8 +11,9 @@
 AI::AI(int shipIdx){
 	this->shipIdx = shipIdx;
 	important = shipList[shipIdx]->important;
-	aiList[aiCount] = this;
-	aiCount++;
+	shipList[shipIdx]->myAI = this;
+}
+AI::~AI(){
 }
 void AI::tick(){
 	//bubbles assign objectives

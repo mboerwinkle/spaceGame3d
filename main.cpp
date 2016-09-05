@@ -22,8 +22,6 @@ User* userList[MAXUSERS];
 int userCount = 0;
 Ship* shipList[MAXSHIPS];
 int shipCount = 0;
-AI* aiList[MAXSHIPS];
-int aiCount = 0;
 IntList orphans;
 IntList importants;
 struct sockaddr_in recvAddr;
@@ -54,11 +52,7 @@ void loop(){
 		for(int x = 0; x < userCount; x++){
 			userList[x]->sendUserData();
 		}
-		//tick AIs
-		for(int x = 0; x < aiCount; x++){
-			aiList[x]->tick();
-		}
-		//tickShips (vel/rot changes based on controls, tick modules, advance ships)
+		//tickShips (vel/rot changes based on controls, tick modules, advance ships, tick ais)
 		for(int x = 0, shipsFound = 0; shipsFound < shipCount; x++){
 			if(shipList[x] != NULL){
 				shipsFound++;
