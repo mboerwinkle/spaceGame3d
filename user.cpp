@@ -32,7 +32,7 @@ void User::sendUserData(){
 	msgUsed+=sizeof(quat);
 	(*shipsUsed)++;
 	for(int impShipIdx = 0; impShipIdx < myShip->myBub->closeImportant.len; impShipIdx++){
-		targ = shipList[myShip->myBub->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
+		targ = shipList[myShip->myBub->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through FIXME save bubble pointer, not ship pointer
 		for(int x = 0; x<targ->myBub->shipIdx.len; x++){
 			memcpy(msg+msgUsed, shipList[targ->myBub->shipIdx.list[x]]->pos, sizeof(point));
 			msgUsed+=sizeof(point);

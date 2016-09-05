@@ -2,10 +2,12 @@
 #define SHIP_H
 #include <math.h>
 #include "dataTypes.h"
+#include "modules/module.h"
 #include "ai.h"
 #include "bubble.h"
 #include "def.h"
 #include "intList.h"
+class Module;
 class Bubble;
 class Ship{
 public:
@@ -27,6 +29,7 @@ public:
 	Bubble* myBub = NULL;//if this ship is important, this is a pointer to its bubble. otherwise unused.
 	int myImp = -1;//if this ship is important, unused. otherwise is the index of the ship whose bubble I am in.
 	AI* myAI = NULL;
+	Module *myMod[MAXMODULES];
 	
 	int speed = 0;
 	point pos = {500000,500000,500000};

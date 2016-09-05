@@ -22,12 +22,16 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 	}else{
 		orphans.add(index);
 	}
+	for(int x = 0; x < MAXMODULES; x++){
+		myMod[x] = NULL;
+	}
 	if(idx != NULL) *idx = index;
 	shipCount++;
 }
 Ship::~Ship(){
-	if(important){
-		delete myBub;
+	delete myBub;
+	for(int x = 0; x < MAXMODULES; x++){
+		delete myMod[x];
 	}
 	delete myAI;
 	shipList[index] = NULL;
