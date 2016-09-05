@@ -6,6 +6,7 @@
 class IntList{
 public:
 	IntList();
+	~IntList();
 	void add(int val);
 	int *list = NULL;
 	int len = 0;

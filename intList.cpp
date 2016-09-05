@@ -3,6 +3,9 @@
 #include "intList.h"
 IntList::IntList(){
 }
+IntList::~IntList(){
+	free(list);
+}
 void IntList::add(int val){
 	len++;
 	list = (int*)realloc(list, len*sizeof(int));

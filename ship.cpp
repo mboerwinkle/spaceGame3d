@@ -25,6 +25,14 @@ Ship::Ship(point pos, quat rot, int important, int* idx){
 	if(idx != NULL) *idx = index;
 	shipCount++;
 }
+Ship::~Ship(){
+	if(important){
+		delete myBub;
+	}
+	delete myAI;
+	shipList[index] = NULL;
+	shipCount--;
+}
 void Ship::tick(){
 	applyControls();
 	addSpeed();

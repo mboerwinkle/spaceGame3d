@@ -9,6 +9,12 @@ Bubble::Bubble(Ship* owner){
 	this->owner = owner;
 	shipIdx.add(owner->index);	
 }
+Bubble::~Bubble(){
+	for(int x = 1; x < shipIdx.len; x++){//FIXME go ahead and try to give them to closeImportant
+			orphans.add(shipIdx.list[x]);
+			shipList[orphans.list[orphans.len-1]]->myImp = -1;
+	}
+}
 void Bubble::updateOrphans(){
 	addOrphans();
 	makeOrphans();

@@ -7,6 +7,7 @@ class Ship;
 class Bubble{
 public:
 	Bubble(Ship *owner);
+	~Bubble();
 	void assignTasks();
 	void updateOrphans();
 	IntList shipIdx;

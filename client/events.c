@@ -33,6 +33,9 @@ int spKeyAction(SDL_Keycode key, int pressed){
 		case SDLK_RIGHT:
 			ctls.yaw = pressed;
 			return 1;
+		case SDLK_SPACE:
+			ctls.fire = pressed;
+			return 1;
 		default:
 			return 0;
 	}

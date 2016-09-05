@@ -59,8 +59,11 @@ void loop(){
 			aiList[x]->tick();
 		}
 		//tickShips (vel/rot changes based on controls, tick modules, advance ships)
-		for(int x = 0; x < shipCount; x++){
-			shipList[x]->tick();
+		for(int x = 0, shipsFound = 0; shipsFound < shipCount; x++){
+			if(shipList[x] != NULL){
+				shipsFound++;
+				shipList[x]->tick();
+			}
 		}
 		//handleCollisions(also, add remove ships from collision boxes)
 		count++;

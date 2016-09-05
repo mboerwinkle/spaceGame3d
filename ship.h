@@ -12,6 +12,7 @@ public:
 	void tick();
 	void tickImportant();
 	Ship(point pos, quat rot, int important, int* idx);
+	~Ship();
 
 	controls ctl;
 	short team = 1;//if (ship1.team)&(ship2.team), then dont attack
