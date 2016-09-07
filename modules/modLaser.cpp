@@ -3,6 +3,7 @@
 #include "../def.h"
 #include "../ship.h"
 #include "modLaser.h"
+#include "../rayTraceCollide.h"
 ModLaser::ModLaser(Ship* owner){
 	this->owner = owner;
 	int good = 0;
@@ -25,4 +26,16 @@ void ModLaser::tick(int stat){
 	}
 }
 void ModLaser::fire(){
+	Ship* hit;
+	uint64_t dist;
+	Bubble* disBub;
+	if(owner->important){
+		disBub = owner->myBub;
+	}else disBub = shipList[owner->myImp]->myBub;
+	hit = rayTraceCollide(disBub, owner->pos, owner->rot, &dist);
+	if(hit != NULL){
+		printf("HIT %p %ld\n", hit, dist);
+	}else{
+		printf("MISS\n");
+	}
 }

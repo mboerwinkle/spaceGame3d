@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "dataTypes.h"
+#include "modules/module.h"
 #include "ship.h"
 #include "user.h"
 #include "def.h"
@@ -20,7 +21,8 @@ void netParse(int userIdx, char* msg){
 		puts("Spawning");
 		point loc = {500000, 500000, 500000};
 		quat rot = {1, 0, 0, 0};
-		new Ship(loc, rot, 1, &(userList[userIdx]->shipIdx));
+		Ship* newShip = new Ship(loc, rot, 1, &(userList[userIdx]->shipIdx));
+		new ModLaser(newShip);
 	}
 	
 }

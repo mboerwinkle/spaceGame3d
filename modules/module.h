@@ -1,6 +1,5 @@
 #ifndef MODULE_H
 #define MODULE_H
-/*include other module .h files here*/
 class Ship;
 class Module{
 public:
@@ -8,4 +7,6 @@ public:
 	virtual void tick(int stat) = 0;
 	Ship* owner;
 };
+/*include other module .h files here*/
+#include "modLaser.h"
 #endif

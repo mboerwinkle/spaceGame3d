@@ -31,6 +31,7 @@ public:
 	AI* myAI = NULL;
 	Module *myMod[MAXMODULES];
 	
+	int rad = 200;
 	int speed = 0;
 	point pos = {500000,500000,500000};
 	quat rot = {1,0,0,0};
