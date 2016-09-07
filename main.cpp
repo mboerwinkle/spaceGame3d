@@ -52,19 +52,19 @@ void loop(){
 		for(int x = 0; x < userCount; x++){
 			userList[x]->sendUserData();
 		}
-		//tickShips (vel/rot changes based on controls, tick modules, advance ships, tick ais)
-		for(int x = 0, shipsFound = 0; shipsFound < shipCount; x++){
-			if(shipList[x] != NULL){
-				shipsFound++;
-				shipList[x]->tick();
-			}
-		}
 		//handleCollisions(also, add remove ships from collision boxes)
 		count++;
 		if(count == PERIODIC){
 			count = 0;
 			for(int x = 0; x < importants.len; x++){//handles orphans and touching bubbles
 				shipList[importants.list[x]]->tickImportant();
+			}
+		}
+		//tickShips (vel/rot changes based on controls, tick modules, advance ships, tick ais)
+		for(int x = 0, shipsFound = 0; shipsFound < shipCount; x++){
+			if(shipList[x] != NULL){
+				shipsFound++;
+				shipList[x]->tick();
 			}
 		}
 		//wait Until time up.

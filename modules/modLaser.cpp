@@ -35,6 +35,7 @@ void ModLaser::fire(){
 	hit = rayTraceCollide(disBub, owner->pos, owner->rot, &dist);
 	if(hit != NULL){
 		printf("HIT %p %ld\n", hit, dist);
+		delete hit;
 	}else{
 		printf("MISS\n");
 	}

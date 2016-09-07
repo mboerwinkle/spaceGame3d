@@ -34,6 +34,15 @@ Ship::~Ship(){
 		delete myMod[x];
 	}
 	delete myAI;
+	if(important){
+		importants.remove(importants.search(index));
+	}else{
+		if(myImp != -1){
+			Bubble* disBub = shipList[myImp]->myBub;
+			disBub->shipIdx.remove(disBub->shipIdx.search(index));
+			
+		}
+	}
 	shipList[index] = NULL;
 	shipCount--;
 }

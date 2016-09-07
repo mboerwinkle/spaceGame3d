@@ -4,16 +4,21 @@
 int64_t shipRayTraceCollide(Ship* targ, point origin, quat dir);
 Ship* rayTraceCollide(Bubble* myBub, point origin, quat dir, uint64_t* mindist){
 	Ship* hit = NULL;
-	Bubble* currBub;
+	Ship* targ = NULL;
 	uint64_t dist;
 	*mindist = BUBBLERAD*2+1;//FIXME is this even good?
 	for(int impShipIdx = 0; impShipIdx < myBub->closeImportant.len; impShipIdx++){
-		currBub = shipList[myBub->closeImportant.list[impShipIdx]]->myBub;
-		for(int x = 0; x < currBub->shipIdx.len; x++){
-			dist = shipRayTraceCollide(shipList[currBub->shipIdx.list[x]], origin, dir);
+		targ = shipList[myBub->closeImportant.list[impShipIdx]];
+		if(targ == NULL){
+			myBub->closeImportant.remove(impShipIdx);
+			impShipIdx--;
+			continue;
+		}
+		for(int x = 0; x < targ->myBub->shipIdx.len; x++){
+			dist = shipRayTraceCollide(shipList[targ->myBub->shipIdx.list[x]], origin, dir);
 			if(dist != 0 && dist < *mindist){
 				*mindist = dist;
-				hit = shipList[currBub->shipIdx.list[x]];
+				hit = shipList[targ->myBub->shipIdx.list[x]];
 			}
 		}
 	}
