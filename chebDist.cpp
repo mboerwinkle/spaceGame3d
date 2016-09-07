@@ -3,6 +3,7 @@
 #include "chebDist.h"
 unsigned long int chebDist(Ship* one, Ship* two){
 	if(one == NULL || two == NULL){
+		puts("chebDist error");
 		return 0;
 	}
 	unsigned long dist1, dist2, dist;

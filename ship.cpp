@@ -36,11 +36,15 @@ Ship::~Ship(){
 	delete myAI;
 	if(important){
 		importants.remove(importants.search(index));
+		for(int x = 0; x < importants.len; x++){
+			shipList[importants.list[x]]->tickImportant();
+		}
 	}else{
 		if(myImp != -1){
 			Bubble* disBub = shipList[myImp]->myBub;
 			disBub->shipIdx.remove(disBub->shipIdx.search(index));
-			
+		}else{
+			orphans.remove(orphans.search(index));
 		}
 	}
 	shipList[index] = NULL;
