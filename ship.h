@@ -18,7 +18,7 @@ public:
 
 	controls ctl;
 	short team = 1;//if (ship1.team)&(ship2.team), then dont attack
-	int maxSpeed = 5;
+	int maxSpeed = 20;
 	int accel = 10;
 	int decel = 10;
 	double rollAngle = M_PI/32;//in radians

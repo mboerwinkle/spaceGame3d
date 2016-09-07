@@ -10,7 +10,7 @@ public:
 	Ship* owner;
 private:
 	void fire();
-	int maxCoolDown = 100;
+	int maxCoolDown = 20;
 	int coolDown = 0;//FIXME use a short?
 };
 #endif
