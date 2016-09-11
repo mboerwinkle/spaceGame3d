@@ -1,0 +1,2 @@
+int <number of ships>
+int <speed> int <accel> int <decel> int <radius> double <roll> double <yaw> double <pitch> string <file name of blockdata or "NONE">

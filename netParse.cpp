@@ -21,7 +21,7 @@ void netParse(int userIdx, char* msg){
 		puts("Spawning");
 		point loc = {500000, 500000, 500000};
 		quat rot = {1, 0, 0, 0};
-		Ship* newShip = new Ship(loc, rot, 1, &(userList[userIdx]->shipIdx));
+		Ship* newShip = new Ship(0, loc, rot, 1, &(userList[userIdx]->shipIdx));
 		new ModLaser(newShip);
 	}
 	

@@ -3,7 +3,7 @@
 
 #include "dataTypes.h"
 
-extern void drawShip(point where, quat rot);
+extern void drawShip(short type, point where, quat rot);
 
 extern void gfxClear();
 

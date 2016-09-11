@@ -18,11 +18,12 @@ void readScenario(char *filename){
 	int important;
 	int speed;
 	int index;
+	int type;
 	for(int x = 0; x < numShips; x++){
-		if(EOF == fscanf(fp, "%d %ld %ld %ld %lf %lf %lf %lf %d", &important, &(loc[0]), &(loc[1]), &(loc[2]), &(rot[0]), &(rot[1]), &(rot[2]), &(rot[3]), &speed)){
+		if(EOF == fscanf(fp, "%d %d %ld %ld %ld %lf %lf %lf %lf %d",&type, &important, &(loc[0]), &(loc[1]), &(loc[2]), &(rot[0]), &(rot[1]), &(rot[2]), &(rot[3]), &speed)){
 			puts("scenario read error");
 		}
-		new Ship(loc, rot, important, &index);
+		new Ship(type, loc, rot, important, &index);
 		new AI(index);
 	}
 }

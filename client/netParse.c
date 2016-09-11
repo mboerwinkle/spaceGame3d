@@ -14,20 +14,21 @@ void netParse(char* msg, int len){
 	}else if(!strcmp(prefix, "SCN")){
 //		printf("%d ships\n", *((unsigned int*)(msg+3+sizeof(unsigned int))));
 		unsigned int thing = *(unsigned int*)(msg+3);
-#define stepSize (sizeof(point)+sizeof(quat))
+#define stepSize (sizeof(short)+sizeof(point)+sizeof(quat))
 		int msgUsed = 3+sizeof(unsigned int)*2;
 		if(thing != lastFrame){
 			lastFrame = thing;
 			gfxClear();
-			memcpy(myPos, msg+msgUsed, sizeof(point));
-			memcpy(myRot, msg+msgUsed+sizeof(point), sizeof(quat));
+			memcpy(myPos, msg+msgUsed+sizeof(short), sizeof(point));
+			memcpy(myRot, msg+msgUsed+sizeof(short)+sizeof(point), sizeof(quat));
 			msgUsed+=stepSize;//FIXME should not actually happen
 		}
 		int shipCount = 0;
 		while(msgUsed + (int)stepSize < len){
-			uint64_t* loc = (uint64_t*)(msg + msgUsed);
-			double* rot = (double*)(msg + msgUsed + sizeof(point));
-			drawShip(loc, rot);
+			short type = (short)(*msg+msgUsed);
+			uint64_t* loc = (uint64_t*)(msg + msgUsed+sizeof(short));
+			double* rot = (double*)(msg + msgUsed +sizeof(short)+ sizeof(point));
+			drawShip(type, loc, rot);
 			msgUsed += stepSize;
 			shipCount++;
 		}

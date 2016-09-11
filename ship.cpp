@@ -8,13 +8,22 @@
 #include "chebDist.h"
 #include "quatOps.h"
 
-Ship::Ship(point pos, quat rot, int important, int* idx){
+Ship::Ship(short type, point pos, quat rot, int important, int* idx){
 	puts("loading ships");
 	memcpy(this->pos, pos, sizeof(point));
 	memcpy(this->rot, rot, sizeof(quat));
 	this->important = important;
 	shipList[shipCount] = this;
 	index = shipCount;
+	shipType = type;
+	maxSpeed = shipTypes[type].maxSpeed;
+	accel = shipTypes[type].accel;
+	decel = shipTypes[type].decel;
+	rad = shipTypes[type].rad;
+	rollAngle = shipTypes[type].rollAngle;
+	yawAngle = shipTypes[type].yawAngle;
+	pitchAngle = shipTypes[type].pitchAngle;
+	myBlock = shipTypes[type].myBlock;
 	if(important){
 		importants.add(index);
 		myBub = new Bubble(this);

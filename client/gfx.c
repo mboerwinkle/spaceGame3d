@@ -20,7 +20,7 @@
 
 #define v3f glVertex3f  /* v3f was the short IRIS GL name for glVertex3f */
 
-void drawShip(point where, quat rot) {
+void drawShip(short type, point where, quat rot) {
 	glMatrixMode(GL_MODELVIEW);
 	GLfloat red = 0.4, green = 0.5, blue = 0.6;
 	glPushMatrix();

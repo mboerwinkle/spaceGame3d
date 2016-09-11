@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pthread.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -12,10 +13,12 @@
 #include "delay.h"
 #include "netListen.h"
 #include "readScenario.h"
+#include "blockUnionProto.h"
 using namespace std;
 void setupNetwork();
 void loop();
 void shutdown();
+void readData();
 
 int sockfd;
 User* userList[MAXUSERS];
@@ -24,10 +27,12 @@ Ship* shipList[MAXSHIPS];
 int shipCount = 0;
 IntList orphans;
 IntList importants;
+shipProto* shipTypes;
 struct sockaddr_in recvAddr;
 unsigned int tickCount = 0;
 
 int main(int argc, char** argv){
+	readData();
 	if(argc > 1){
 		readScenario(argv[1]);//maybe later have a generate scenario function?
 	}
@@ -35,6 +40,22 @@ int main(int argc, char** argv){
 	loop();
 	shutdown();
 	return 0;
+}
+void readData(){
+	FILE* fp = fopen("ships.cfg", "r");
+	if(fp == NULL){
+		puts("FATAL: ships.cfg not found.");
+	}
+	int numShips;
+	fscanf(fp, "%d", &numShips);
+	shipTypes = (shipProto*)calloc(numShips, sizeof(shipProto));
+	char blockUnionFile[80];
+	for(int x = 0; x< numShips; x++){
+		fscanf(fp, "%d %d %d %d %lf %lf %lf %s", &(shipTypes[x].maxSpeed),  &(shipTypes[x].accel),  &(shipTypes[x].decel), &(shipTypes[x].rad), &(shipTypes[x].rollAngle),  &(shipTypes[x].yawAngle),  &(shipTypes[x].pitchAngle),  blockUnionFile);
+		if(strcmp("NONE", blockUnionFile)){
+			shipTypes[x].myBlock = new BlockUnionProto(blockUnionFile);
+		}else shipTypes[x].myBlock = NULL;
+	}
 }
 void setupNetwork(){
 	recvAddr.sin_family=AF_INET;

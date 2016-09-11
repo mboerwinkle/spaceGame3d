@@ -26,6 +26,8 @@ void User::sendUserData(){
 	unsigned int* shipsUsed = (unsigned int*)(msg+3+sizeof(unsigned int));
 	*shipsUsed = 0;
 	unsigned int msgUsed = 3+sizeof(unsigned int)*2;
+	memcpy(msg+msgUsed, &(myShip->shipType), sizeof(short));
+	msgUsed+=sizeof(short);
 	memcpy(msg+msgUsed, myShip->pos, sizeof(point));//make sure your ship is first so that you get the proper pov
 	msgUsed+=sizeof(point);
 	memcpy(msg+msgUsed, myShip->rot, sizeof(quat));
@@ -39,12 +41,15 @@ void User::sendUserData(){
 			continue;
 		}
 		for(int x = 0; x<targ->myBub->shipIdx.len; x++){
-			memcpy(msg+msgUsed, shipList[targ->myBub->shipIdx.list[x]]->pos, sizeof(point));
+			Ship* currShip = shipList[targ->myBub->shipIdx.list[x]];
+			memcpy(msg+msgUsed, &(currShip->shipType), sizeof(short));
+			msgUsed+=sizeof(short);
+			memcpy(msg+msgUsed, currShip->pos, sizeof(point));
 			msgUsed+=sizeof(point);
-			memcpy(msg+msgUsed, shipList[targ->myBub->shipIdx.list[x]]->rot, sizeof(quat));
+			memcpy(msg+msgUsed, currShip->rot, sizeof(quat));
 			msgUsed+=sizeof(quat);
 			(*shipsUsed)++;
-			if(sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
+			if(sizeof(short)+sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
 				sendto(sockfd, msg, msgUsed+1, 0, (struct sockaddr*)&(this->addr), sizeof(this->addr));
 				(*shipsUsed) = 0;
 				msgUsed = 3+sizeof(unsigned int)*2;
