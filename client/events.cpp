@@ -4,9 +4,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <SDL2/SDL.h>
-#include "dataTypes.h"
+#include "../share/dataTypes.h"
 #include "def.h"
-
+controls ctls;
 int spKeyAction(SDL_Keycode key, int pressed){
 	switch(key){
 		case SDLK_w://accelerate

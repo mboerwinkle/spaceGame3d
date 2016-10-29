@@ -1,13 +1,14 @@
 #ifndef SHIP_H
 #define SHIP_H
 #include <math.h>
-#include "dataTypes.h"
+#include "share/dataTypes.h"
 #include "modules/module.h"
 #include "ai.h"
 #include "bubble.h"
 #include "def.h"
-#include "intList.h"
-#include "blockUnionProto.h"
+#include "share/intList.h"
+#include "share/blockUnion.h"
+#include "share/quatOps.h"
 class Module;
 class Bubble;
 class Ship{
@@ -32,7 +33,7 @@ public:
 	int myImp = -1;//if this ship is important, unused. otherwise is the index of the ship whose bubble I am in.
 	AI* myAI = NULL;
 	Module *myMod[MAXMODULES];
-	BlockUnionProto* myBlock = NULL;
+	BlockUnion* myBlock = NULL;
 	//
 	
 	int rad;
@@ -45,6 +46,7 @@ private:
 };
 extern Ship* shipList[MAXSHIPS];
 extern int shipCount;
+extern shipProto* shipTypes;
 extern IntList importants;
 extern IntList orphans;
 #endif

@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "dataTypes.h"
+#include "share/dataTypes.h"
 #include "ship.h"
 #include "bubble.h"
-#include "chebDist.h"
-#include "quatOps.h"
+#include "share/chebDist.h"
+#include "share/quatOps.h"
 
 Ship::Ship(short type, point pos, quat rot, int important, int* idx){
 	puts("loading ships");
@@ -70,12 +70,12 @@ void Ship::tickImportant(){//remember, this needs to be able to handle some fram
 	}
 	myBub->updateOrphans();
 	for(int x = 0; x < importants.len; x++){
-		if(chebDist(shipList[importants.list[x]], this) < 2*BUBBLERAD && -1 == myBub->closeImportant.search(importants.list[x])){
+		if(chebDist(shipList[importants.list[x]]->pos, this->pos) < 2*BUBBLERAD && -1 == myBub->closeImportant.search(importants.list[x])){
 			myBub->closeImportant.add(importants.list[x]);
 		}
 	}
 	for(int x = 0; x < myBub->closeImportant.len; x++){
-		if(chebDist(shipList[myBub->closeImportant.list[x]], this) > 2*BUBBLERAD){
+		if(chebDist(shipList[myBub->closeImportant.list[x]]->pos, this->pos) > 2*BUBBLERAD){
 			myBub->closeImportant.remove(x);
 			
 		}

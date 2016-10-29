@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "dataTypes.h"
-#include "modules/module.h"
-#include "ship.h"
-#include "user.h"
-#include "def.h"
+#include "../share/dataTypes.h"
+#include "../modules/module.h"
+#include "../ship.h"
+#include "../user.h"
+#include "../def.h"
 void netParse(int userIdx, char* msg){
 	char prefix[4] = {msg[0], msg[1], msg[2], 0};
 	if(!strcmp(prefix, "CTL")){

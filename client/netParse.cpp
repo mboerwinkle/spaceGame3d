@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "dataTypes.h"
+#include "../share/dataTypes.h"
 #include "def.h"
 #include "gfx.h"
 
@@ -25,7 +25,7 @@ void netParse(char* msg, int len){
 		}
 		int shipCount = 0;
 		while(msgUsed + (int)stepSize < len){
-			short type = (short)(*msg+msgUsed);
+			short type = *(short*)(msg+msgUsed);
 			uint64_t* loc = (uint64_t*)(msg + msgUsed+sizeof(short));
 			double* rot = (double*)(msg + msgUsed +sizeof(short)+ sizeof(point));
 			drawShip(type, loc, rot);

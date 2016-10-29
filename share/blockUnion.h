@@ -1,12 +1,13 @@
-#ifndef BLOCKUNIONPROTO_H
-#define BLOCKUNIONPROTO_H
+#ifndef BLOCKUNION_H
+#define BLOCKUNION_H
 #include <math.h>
 #include "dataTypes.h"
-#include "def.h"
-class BlockUnionProto{
+#include "quatOps.h"
+#include "../def.h"
+class BlockUnion{
 public:
-	BlockUnionProto(char* name);
-	~BlockUnionProto();
+	BlockUnion(char* name);
+	~BlockUnion();
 	int blockCount;
 	signedPoint *p1;//every dimension of p1 should be smaller than p2
 	signedPoint *p2;

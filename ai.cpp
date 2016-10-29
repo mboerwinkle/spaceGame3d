@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "dataTypes.h"
+#include "share/dataTypes.h"
 #include "def.h"
-#include "quatOps.h"
-#include "chebDist.h"
+#include "share/quatOps.h"
+#include "share/chebDist.h"
 #include "ship.h"
 #include "user.h"
 #include "ai.h"
@@ -27,9 +27,9 @@ void AI::tick(){
 			objective = -1;
 		}
 	}else if(objective == 1){//go to objLoc, but do not set objective to -1 on arrival. try to stay in place instead.
-//		circle(shipList[((shipList[shipIdx]->index+1)%shipCount)]->pos, 1000);
+		circle(shipList[((shipList[shipIdx]->index+1)%shipCount)]->pos, 500);
 	}else if(objective == 2){//attack shipList[objIdx]
-		if(chebDist(shipList[shipIdx], shipList[objIdx]) > BUBBLERAD){
+		if(chebDist(shipList[shipIdx]->pos, shipList[objIdx]->pos) > BUBBLERAD){
 			objective = -1;
 		}
 		if(attack(shipList[objIdx])){

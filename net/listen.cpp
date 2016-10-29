@@ -4,11 +4,11 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <string.h>
-#include "def.h"
-#include "user.h"
-#include "ship.h"
-#include "netListen.h"
-#include "netParse.h"
+#include "../def.h"
+#include "../user.h"
+#include "../ship.h"
+#include "listen.h"
+#include "parse.h"
 void* netListen(void *null){
 	char msg[MSGSIZE];
 	struct sockaddr_in incomingAddr;

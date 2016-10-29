@@ -8,8 +8,9 @@
 #include "netParse.h"
 #include "gfx.h"
 #include "events.h"
-
-controls ctls;
+#include "../share/readData.h"
+#include "../share/blockUnion.h"
+using namespace std;
 int sockfd;
 struct sockaddr_in recvAddr, sendAddr;
 void startNetwork(char* ip, int port);
@@ -18,12 +19,11 @@ char localhost[10] = "127.0.0.1";
 point myPos;
 quat myRot;
 int main(int argc, char** argv){
+	readData();
 	if(argc == 1){
 		startNetwork(localhost, 5999);
 	}else if(argc == 2){
 		startNetwork(argv[1], 5999);
-//	}else if(argc == 3) {
-//		startNetwork(argv[1], atoi(argv[2]));
 	}else{
 		puts("Usage: ./cli.out [server ip]");
 	}

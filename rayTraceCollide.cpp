@@ -1,5 +1,5 @@
 #include "rayTraceCollide.h"
-#include "quatOps.h"
+#include "share/quatOps.h"
 #include "ship.h"
 int64_t shipRayTraceCollide(Ship* targ, point origin, quat dir);
 Ship* rayTraceCollide(Bubble* myBub, point origin, quat dir, uint64_t* mindist){

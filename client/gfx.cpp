@@ -16,10 +16,57 @@
 #include <GL/glu.h>
 #include <SDL2/SDL.h>
 #include "gfx.h"
-#include "quatOps.h"
+#include "def.h"
+#include "../share/blockUnion.h"
+#include "../share/quatOps.h"
 
 #define v3f glVertex3f  /* v3f was the short IRIS GL name for glVertex3f */
-
+void drawCube(signedPoint one, signedPoint two){
+	GLfloat red = 0.4, green = 0.5, blue = 0.6;
+	float a[3], b[3];
+	a[0]= (float)one[0]/100;
+	a[1]= (float)one[1]/100;
+	a[2]= (float)one[2]/100;
+	b[0]= (float)two[0]/100;
+	b[1]= (float)two[1]/100;
+	b[2]= (float)two[2]/100;
+	//FIXME speed
+    glBegin(GL_QUADS);
+    // front
+	glColor3f(red, green, blue);
+    glVertex3f(b[0], a[1], a[2]);
+    glVertex3f(b[0], b[1], a[2]);
+    glVertex3f(b[0], b[1], b[2]);
+    glVertex3f(b[0], a[1], b[2]);
+    // back
+    glVertex3f(a[0], a[1], a[2]);
+    glVertex3f(a[0], b[1], a[2]);
+    glVertex3f(a[0], b[1], b[2]);
+    glVertex3f(a[0], a[1], b[2]);
+    // right
+	glColor3f(red*0.8, green*0.8, blue*0.8);
+    glVertex3f(b[0], b[1], a[2]);
+    glVertex3f(a[0], b[1], a[2]);
+    glVertex3f(a[0], b[1], b[2]);
+    glVertex3f(b[0], b[1], b[2]);
+    // left
+    glVertex3f(b[0], a[1], a[2]);
+    glVertex3f(a[0], a[1], a[2]);
+    glVertex3f(a[0], a[1], b[2]);
+    glVertex3f(b[0], a[1], b[2]);
+    // top
+	glColor3f(red*0.6, green*0.6, blue*0.6);
+    glVertex3f(a[0], a[1], a[2]);
+    glVertex3f(a[0], b[1], a[2]);
+    glVertex3f(b[0], b[1], a[2]);
+    glVertex3f(b[0], a[1], a[2]);
+    // bottom
+    glVertex3f(a[0], a[1], b[2]);
+    glVertex3f(a[0], b[1], b[2]);
+    glVertex3f(b[0], b[1], b[2]);
+    glVertex3f(b[0], a[1], b[2]);
+    glEnd();	
+}
 void drawShip(short type, point where, quat rot) {
 	glMatrixMode(GL_MODELVIEW);
 	GLfloat red = 0.4, green = 0.5, blue = 0.6;
@@ -45,23 +92,29 @@ void drawShip(short type, point where, quat rot) {
 	glMultMatrixd(rotMatrix);
 	glRotated(-90, 0, 0, 1);
 	glScalef(1.0 / 4.0, 1.0 / 4.0, 1.0 / 3.0); //FIXME WTF no, fix this
-	glBegin(GL_TRIANGLE_STRIP);
-	/* left wing */
-	v3f(-7.0, 0.0, 2.0);
-	v3f(-1.0, 0.0, 3.0);
-	glColor3f(red, green, blue);
-	v3f(-1.0, 7.0, 3.0);
-	/* left side */
-	glColor3f(0.6 * red, 0.6 * green, 0.6 * blue);
-	v3f(0.0, 0.0, 0.0);
-	v3f(0.0, 8.0, 0.0);
-	/* right side */
-	v3f(1.0, 0.0, 3.0);
-	v3f(1.0, 7.0, 3.0);
-	/* final tip of right wing */
-	glColor3f(red, green, blue);
-	v3f(7.0, 0.0, 2.0);
-	glEnd();
+	if(shipTypes[type].myBlock == NULL){
+		glBegin(GL_TRIANGLE_STRIP);
+		/* left wing */
+		v3f(-7.0, 0.0, 2.0);
+		v3f(-1.0, 0.0, 3.0);
+		glColor3f(red, green, blue);
+		v3f(-1.0, 7.0, 3.0);
+		/* left side */
+		glColor3f(0.6 * red, 0.6 * green, 0.6 * blue);
+		v3f(0.0, 0.0, 0.0);
+		v3f(0.0, 8.0, 0.0);
+		/* right side */
+		v3f(1.0, 0.0, 3.0);
+		v3f(1.0, 7.0, 3.0);
+		/* final tip of right wing */
+		glColor3f(red, green, blue);
+		v3f(7.0, 0.0, 2.0);
+		glEnd();
+	}else{
+		for(int x = 0; x < shipTypes[type].myBlock->blockCount; x++){
+			drawCube(shipTypes[type].myBlock->p1[x], shipTypes[type].myBlock->p2[x]);
+		}
+	}
 	glPopMatrix();
 }
 

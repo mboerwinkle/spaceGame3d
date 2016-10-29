@@ -1,8 +1,8 @@
 #ifndef BUBBLE_H
 #define BUBBLE_H
-#include "dataTypes.h"
+#include "share/dataTypes.h"
 #include "def.h"
-#include "intList.h"
+#include "share/intList.h"
 class Ship;
 class Bubble{
 public:

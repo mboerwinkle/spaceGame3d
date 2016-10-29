@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "readScenario.h"
-#include "dataTypes.h"
-#include "ship.h"
-#include "ai.h"
+#include "../share/dataTypes.h"
+#include "../ship.h"
+#include "../ai.h"
 
 void readScenario(char *filename){
 	FILE* fp = fopen(filename, "r");

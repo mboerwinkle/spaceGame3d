@@ -1,7 +1,8 @@
 #ifndef GFX_H
 #define GFX_H
 
-#include "dataTypes.h"
+#include "../share/dataTypes.h"
+#include "../share/quatOps.h"
 
 extern void drawShip(short type, point where, quat rot);
 

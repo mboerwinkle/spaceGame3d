@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include "dataTypes.h"
-#include "blockUnionProto.h"
+#include "blockUnion.h"
 #include "quatOps.h"
-BlockUnionProto::BlockUnionProto(char* name){
+BlockUnion::BlockUnion(char* name){
+	puts("new BlockUnion");
 	FILE* fp = fopen(name, "r");
 	if(fp == NULL){
-		puts("error opening BlockUnionProto file");
+		puts("error opening BlockUnion file");
 		return;
 	}
 	fscanf(fp, "%d", &blockCount);
@@ -17,12 +18,12 @@ BlockUnionProto::BlockUnionProto(char* name){
 		fscanf(fp, "%ld %ld %ld %ld %ld %ld", &(p1[x][0]), &(p1[x][1]), &(p1[x][2]), &(p2[x][0]), &(p2[x][1]), &(p2[x][2]));
 	}
 }
-BlockUnionProto::~BlockUnionProto(){
-	puts("Are you SURE you want to free a BlockUnionProto?");
+BlockUnion::~BlockUnion(){
+	puts("Are you SURE you want to free a BlockUnion?");
 	free(p1);
 	free(p2);
 }
-int BlockUnionProto::sphereCollide(signedPoint pos, quat rot, int rad){
+int BlockUnion::sphereCollide(signedPoint pos, quat rot, int rad){
 	quat revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
 	rotPoint(pos, revRot);
 	signedPoint *a, *b;

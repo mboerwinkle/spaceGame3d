@@ -4,7 +4,7 @@
 #include "def.h"
 #include "ai.h"
 #include "bubble.h"
-#include "chebDist.h"
+#include "share/chebDist.h"
 Bubble::Bubble(Ship* owner){
 	this->owner = owner;
 	shipIdx.add(owner->index);	
@@ -21,7 +21,7 @@ void Bubble::updateOrphans(){
 }
 void Bubble::addOrphans(){
 	for(int x = 0; x < orphans.len; x++){
-		if(chebDist(shipList[orphans.list[x]], owner) < BUBBLERAD){
+		if(chebDist(shipList[orphans.list[x]]->pos, owner->pos) < BUBBLERAD){
 			shipIdx.add(orphans.list[x]);
 			orphans.remove(x);
 			shipList[shipIdx.list[shipIdx.len-1]]->myImp = this->owner->index;//FIXME is this even stable?
@@ -31,7 +31,7 @@ void Bubble::addOrphans(){
 }
 void Bubble::makeOrphans(){
 	for(int x = 1; x < shipIdx.len; x++){
-		if(chebDist(shipList[shipIdx.list[x]], owner) > BUBBLERAD){
+		if(chebDist(shipList[shipIdx.list[x]]->pos, owner->pos) > BUBBLERAD){
 			orphans.add(shipIdx.list[x]);
 			shipIdx.remove(x);
 			shipList[orphans.list[orphans.len-1]]->myImp = -1;
