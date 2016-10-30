@@ -17,7 +17,8 @@ void startNetwork(char* ip, int port);
 void handleNetwork();
 char localhost[10] = "127.0.0.1";
 point myPos;
-quat myRot;
+quat myRot = {1,0,0,0};
+quat targRot = {1,0,0,0};
 int main(int argc, char** argv){
 	readData();
 	if(argc == 1){
@@ -29,6 +30,7 @@ int main(int argc, char** argv){
 	}
 	initGfx();
 	while(1){
+		lerp(myRot, myRot, targRot, 0.5);
 		handleNetwork();
 		if(handleEvents()){
 			break;

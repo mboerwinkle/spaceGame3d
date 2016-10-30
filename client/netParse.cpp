@@ -9,6 +9,7 @@ static unsigned int lastFrame = 69;
 
 void netParse(char* msg, int len){
 	char prefix[4] = {msg[0], msg[1], msg[2], 0};
+	int64_t cam[3] = {-1000, 0, 600};
 	if(!strcmp(prefix, "TXT")){
 		printf("%s\n", msg);
 	}else if(!strcmp(prefix, "SCN")){
@@ -20,7 +21,11 @@ void netParse(char* msg, int len){
 			lastFrame = thing;
 			gfxClear();
 			memcpy(myPos, msg+msgUsed+sizeof(short), sizeof(point));
-			memcpy(myRot, msg+msgUsed+sizeof(short)+sizeof(point), sizeof(quat));
+			memcpy(targRot, msg+msgUsed+sizeof(short)+sizeof(point), sizeof(quat));
+			rotPoint(cam, myRot);
+			for(int temp = 0; temp < 3; temp++){
+				myPos[temp] += cam[temp];
+			}
 			msgUsed+=stepSize;//FIXME should not actually happen
 		}
 		int shipCount = 0;

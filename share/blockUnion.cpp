@@ -5,10 +5,9 @@
 #include "blockUnion.h"
 #include "quatOps.h"
 BlockUnion::BlockUnion(char* name){
-	puts("new BlockUnion");
 	FILE* fp = fopen(name, "r");
 	if(fp == NULL){
-		puts("error opening BlockUnion file");
+		printf("error opening BlockUnion: %s\n", name);
 		return;
 	}
 	fscanf(fp, "%d", &blockCount);

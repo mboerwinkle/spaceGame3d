@@ -7,9 +7,8 @@ class AI{
 public:
 	AI(int shipIdx);
 	~AI();
-	int objective = 1;
+	int objective = 2;
 	int shipIdx;
-	int important;
 	point objLoc = {504000, 500000, 500000};//coord of objective, if required
 //	int homeShipIdx;//this might be useful for cheating miners
 	point home;//this is not cheating

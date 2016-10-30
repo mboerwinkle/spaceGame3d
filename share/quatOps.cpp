@@ -20,11 +20,13 @@ void rotAppend(double* targ, double* append, double* save){
 	newTarg[3]=(W1 * Z2 + X1 * Y2 - Y1 * X2 + Z1 * W2);
 	quatNormalize(newTarg);//FIXME efficency does not need to fix every tick
 	memcpy(save, newTarg, sizeof(quat));
-/*	save[0]=newTarg[0];
-	save[1]=newTarg[1];
-	save[2]=newTarg[2];
-	save[3]=newTarg[3];
-*/
+}
+void lerp(quat ret, quat one, quat two, double t){
+	quat temp;
+	for(int x = 0; x < 4; x++){
+		temp[x] = two[x]*t+one[x]*(1-t);
+	}
+	memcpy(ret, temp, sizeof(quat));
 }
 double quatLen(quat r){
 	return sqrt(r[0]*r[0]+r[1]*r[1]+r[2]*r[2]+r[3]*r[3]);

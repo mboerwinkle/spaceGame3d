@@ -22,7 +22,7 @@ void readData(){
 		}
 	}
 	for(int temp = 0; temp < shipTypeCount; temp++){
-		printf("ship %d:\n\tmaxSpeed %d\n\taccel %d\n\tdecel %d\n\trad: %d\n\tangles: %lf %lf %lf\n\tBlockUnion: %p\n", temp, shipTypes[temp].maxSpeed, shipTypes[temp].accel, shipTypes[temp].decel, shipTypes[temp].rad, shipTypes[temp].rollAngle, shipTypes[temp].yawAngle, shipTypes[temp].pitchAngle, shipTypes[temp].myBlock);
+		printf("ship %d:\n\tmaxSpeed: %d\n\taccel: %d\n\tdecel: %d\n\trad: %d\n\tangles: %lf %lf %lf\n\tBlockUnion: %p\n", temp, shipTypes[temp].maxSpeed, shipTypes[temp].accel, shipTypes[temp].decel, shipTypes[temp].rad, shipTypes[temp].rollAngle, shipTypes[temp].yawAngle, shipTypes[temp].pitchAngle, shipTypes[temp].myBlock);
 	}
 
 }

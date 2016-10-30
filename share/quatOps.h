@@ -7,4 +7,5 @@ extern void rotPoint(int64_t* loc, quat rot);
 extern void generateRotationMatrix(quat rot, double *M);
 extern double quatLen(quat r);
 extern void quatNormalize(quat r);
+extern void lerp(quat ret, quat one, quat two, double t);
 #endif

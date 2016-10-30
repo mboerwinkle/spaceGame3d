@@ -4,6 +4,7 @@
 #include "../share/dataTypes.h"
 #include "../share/quatOps.h"
 extern quat myRot;
+extern quat targRot;
 extern point myPos;
 extern shipProto *shipTypes;
 extern int has_joystick;
