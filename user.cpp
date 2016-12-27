@@ -4,6 +4,7 @@
 #include "def.h"
 #include "ship.h"
 #include "user.h"
+#include "sendMessage.h"
 User::User(unsigned long ip){
 	addr.sin_family=AF_INET;
 	addr.sin_port=htons(5999);
@@ -18,21 +19,16 @@ void User::sendUserData(){
 	if(shipIdx == -1){
 		return;
 	}
+
+	static char data[100000];//FIXME check for overflow.
+	int datalen = 0;
+	strcpy(data, "SCN"); datalen+=3;
+	short* shipsUsed = (short*)(data+datalen); datalen+=sizeof(short);
+	(*shipsUsed) = 0;
+	short* povShipIdx = (short*)(data+datalen); datalen+=sizeof(short);
 	Ship* myShip = shipList[shipIdx];
 	Ship* targ = shipList[shipIdx];
-	
-	char msg[MSGSIZE] = "SCN";
-	memcpy(msg+3, &tickCount, sizeof(unsigned int));
-	unsigned int* shipsUsed = (unsigned int*)(msg+3+sizeof(unsigned int));
-	*shipsUsed = 0;
-	unsigned int msgUsed = 3+sizeof(unsigned int)*2;
-	memcpy(msg+msgUsed, &(myShip->shipType), sizeof(short));
-	msgUsed+=sizeof(short);
-	memcpy(msg+msgUsed, myShip->pos, sizeof(point));//make sure your ship is first so that you get the proper pov
-	msgUsed+=sizeof(point);
-	memcpy(msg+msgUsed, myShip->rot, sizeof(quat));
-	msgUsed+=sizeof(quat);
-	(*shipsUsed)++;
+
 	for(int impShipIdx = 0; impShipIdx < myShip->myBub->closeImportant.len; impShipIdx++){
 		targ = shipList[myShip->myBub->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
 		if(targ == NULL){
@@ -42,21 +38,18 @@ void User::sendUserData(){
 		}
 		for(int x = 0; x<targ->myBub->shipIdx.len; x++){
 			Ship* currShip = shipList[targ->myBub->shipIdx.list[x]];
-			memcpy(msg+msgUsed, &(currShip->shipType), sizeof(short));
-			msgUsed+=sizeof(short);
-			memcpy(msg+msgUsed, currShip->pos, sizeof(point));
-			msgUsed+=sizeof(point);
-			memcpy(msg+msgUsed, currShip->rot, sizeof(quat));
-			msgUsed+=sizeof(quat);
-			(*shipsUsed)++;
-			if(sizeof(short)+sizeof(point)+sizeof(quat) + msgUsed >= MSGSIZE){//FIXME speed
-				sendto(sockfd, msg, msgUsed+1, 0, (struct sockaddr*)&(this->addr), sizeof(this->addr));
-				(*shipsUsed) = 0;
-				msgUsed = 3+sizeof(unsigned int)*2;
+			if(currShip == myShip){
+				(*povShipIdx) = (*shipsUsed);
 			}
+			memcpy(data+datalen, &(currShip->shipType), sizeof(short));
+			datalen+=sizeof(short);
+			memcpy(data+datalen, currShip->pos, sizeof(point));
+			datalen+=sizeof(point);
+			memcpy(data+datalen, currShip->rot, sizeof(quat));
+			datalen+=sizeof(quat);
+			(*shipsUsed)++;
 		}
 	}
-	if(msgUsed > 3+sizeof(unsigned int)*2){
-		sendto(sockfd, msg, msgUsed+1, 0, (struct sockaddr*)&(addr), sizeof(addr));
-	}
+	strcpy(data+datalen, "END"); datalen+=3;
+	sendMessage(&addr, data, datalen);
 }

@@ -11,6 +11,10 @@ typedef struct controls{
 	double pitch = 0;//-1 - 1
 	int fire = 0;//this limits to 32 modules. doesnt really seem like a limit.
 }controls;
+typedef struct drawable{
+	point pos[2];
+	int type;
+}drawable;
 typedef struct shipProto{
 	int maxSpeed;
 	int accel;

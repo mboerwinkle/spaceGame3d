@@ -1,4 +1,4 @@
-#define MSGSIZE 6000//size of udp data per packet
+#define MSGSIZE 3000//size of udp data per packet. Except plus two. See sendMessage.cpp
 #define MAXUSERS 10//maximum amount of handleable users
 #define MAXSHIPS 100//maximum amount of handleable ships
 #define MAXMODULES 4//maximum amount of modules per ship

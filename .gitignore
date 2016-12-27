@@ -3,6 +3,8 @@
 *.lo
 *.o
 *.obj
+# Java Classes
+*.class
 
 # Precompiled Headers
 *.gch

@@ -57,7 +57,10 @@ void loop(){
 		for(int x = 0; x < userCount; x++){
 			userList[x]->sendUserData();
 		}
+
 		//handleCollisions(also, add remove ships from collision boxes)
+
+		//periodic tasks
 		count++;
 		if(count == PERIODIC){
 			count = 0;
@@ -65,6 +68,11 @@ void loop(){
 				shipList[importants.list[x]]->tickImportant();
 			}
 		}
+		//reset viewables
+		for(int x = 0; x < importants.len; x++){
+			shipList[importants.list[x]]->myBub->drawableCount = 0;
+		}
+		
 		//tickShips (vel/rot changes based on controls, tick modules, advance ships, tick ais)
 		for(int x = 0, shipsFound = 0; shipsFound < shipCount; x++){
 			if(shipList[x] != NULL){
@@ -72,6 +80,7 @@ void loop(){
 				shipList[x]->tick();
 			}
 		}
+
 		//wait Until time up.
 		tickCount++;
 		delay(FRAMERATE);

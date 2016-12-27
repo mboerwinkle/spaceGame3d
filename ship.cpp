@@ -128,3 +128,4 @@ void Ship::addSpeed(){
 //	pos[2]+=speed*(-2*rot[0]*rot[2]+2*rot[1]*rot[3]);
 }
 
+
