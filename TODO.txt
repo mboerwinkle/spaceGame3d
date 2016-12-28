@@ -1,3 +1,4 @@
+let client handle out of order messages.
 make slow test to make sure that every ship is either in a bubble or an orphan
 some things in /shared include /def.h. This means that /client build depends on /def.h which should not be true.
 make common reversed quaternion functions faster

@@ -21,6 +21,36 @@
 #include "../share/quatOps.h"
 
 #define v3f glVertex3f  /* v3f was the short IRIS GL name for glVertex3f */
+void rotateView(){
+	double lookAt[3] = {1,0,0};
+	double upVector[3] = {0,0,1};
+	rotVector(lookAt, myRot);
+	rotVector(upVector, myRot);
+	gluLookAt(0,0,0,lookAt[0], lookAt[1], lookAt[2], upVector[0], upVector[1], upVector[2]);
+}
+void drawDrawable(drawable targ){
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	rotateView();
+	GLfloat red = 0, green = 0, blue = 0;
+	if(targ.type == 0){
+		red = 1.0;
+	}
+	glLineWidth(2); 
+	glBegin(GL_LINES);
+	glColor3f(red, green, blue);
+	float orig[3];
+	float end[3];
+	for (int dim = 0; dim < 3; dim++) {
+		orig[dim] = (targ.pos[dim]-myPos[dim])/100.0;
+		end[dim] = orig[dim]+targ.dir[dim]*100;
+	}
+	glVertex3f(orig[0], orig[1], orig[2]);
+	glColor3f(red, green, blue);
+	glVertex3f(end[0], end[1], end[2]);
+	glEnd();
+	glPopMatrix();
+}
 void drawCube(signedPoint one, signedPoint two){
 	GLfloat red = 0.4, green = 0.5, blue = 0.6;
 	float a[3], b[3];
@@ -83,11 +113,7 @@ void drawShip(short type, point where, quat rot) {
 	quat revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
 	double rotMatrix[16];
 	generateRotationMatrix(revRot, rotMatrix);
-	double lookAt[3] = {1,0,0};
-	double upVector[3] = {0,0,1};
-	rotVector(lookAt, myRot);
-	rotVector(upVector, myRot);
-	gluLookAt(0,0,0,lookAt[0], lookAt[1], lookAt[2], upVector[0], upVector[1], upVector[2]);
+	rotateView();
 	glTranslated(pos[0], pos[1], pos[2]);
 	glMultMatrixd(rotMatrix);
 	glRotated(-90, 0, 0, 1);
@@ -95,20 +121,20 @@ void drawShip(short type, point where, quat rot) {
 	if(shipTypes[type].myBlock == NULL){
 		glBegin(GL_TRIANGLE_STRIP);
 		/* left wing */
-		v3f(-7.0, 0.0, 2.0);
-		v3f(-1.0, 0.0, 3.0);
+		v3f(-7.0, -3.0, 2.0);
+		v3f(-1.0, -3.0, 3.0);
 		glColor3f(red, green, blue);
-		v3f(-1.0, 7.0, 3.0);
+		v3f(-1.0, 4.0, 3.0);
 		/* left side */
 		glColor3f(0.6 * red, 0.6 * green, 0.6 * blue);
-		v3f(0.0, 0.0, 0.0);
-		v3f(0.0, 8.0, 0.0);
+		v3f(0.0, -3.0, 0.0);
+		v3f(0.0, 5.0, 0.0);
 		/* right side */
-		v3f(1.0, 0.0, 3.0);
-		v3f(1.0, 7.0, 3.0);
+		v3f(1.0, -3.0, 3.0);
+		v3f(1.0, 4.0, 3.0);
 		/* final tip of right wing */
 		glColor3f(red, green, blue);
-		v3f(7.0, 0.0, 2.0);
+		v3f(7.0, -3.0, 2.0);
 		glEnd();
 	}else{
 		for(int x = 0; x < shipTypes[type].myBlock->blockCount; x++){

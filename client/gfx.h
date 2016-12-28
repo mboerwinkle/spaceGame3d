@@ -5,7 +5,7 @@
 #include "../share/quatOps.h"
 
 extern void drawShip(short type, point where, quat rot);
-
+extern void drawDrawable(drawable targ);
 extern void gfxClear();
 
 extern void gfxFlip();

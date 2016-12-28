@@ -20,7 +20,7 @@ void User::sendUserData(){
 		return;
 	}
 
-	static char data[100000];//FIXME check for overflow.
+	static char data[1000];//FIXME check for overflow.
 	int datalen = 0;
 	strcpy(data, "SCN"); datalen+=3;
 	short* shipsUsed = (short*)(data+datalen); datalen+=sizeof(short);
@@ -49,6 +49,15 @@ void User::sendUserData(){
 			datalen+=sizeof(quat);
 			(*shipsUsed)++;
 		}
+	}
+	short* gfxCount = (short*)(data+datalen);
+	datalen+=sizeof(short);
+	(*gfxCount) = 0;
+	for(int impShipIdx = 0; impShipIdx < myShip->myBub->closeImportant.len; impShipIdx++){
+		targ = shipList[myShip->myBub->closeImportant.list[impShipIdx]];//the ship who has a bubble that we are currently cycling through
+		(*gfxCount)+=targ->myBub->drawableCount;
+		memcpy(data+datalen, &(targ->myBub->drawables), sizeof(drawable)*(targ->myBub->drawableCount));
+		datalen+=targ->myBub->drawableCount*sizeof(drawable);
 	}
 	strcpy(data+datalen, "END"); datalen+=3;
 	sendMessage(&addr, data, datalen);

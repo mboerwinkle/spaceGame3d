@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <unistd.h>
 #include "../share/dataTypes.h"
 #include "def.h"
 #include "gfx.h"
@@ -37,9 +36,9 @@ void netParse(char* msg, int len){
 	}
 	lastPacketIdx = thisPacketIdx;
 	if(datalen+len-2 > maxDataLen){
-		puts("Our biggest message ever! Reallocating!");
-		data = (char*)realloc(data, datalen+len-2);
 		maxDataLen = datalen+len-2;
+		printf("Our biggest message ever! Reallocating! %d\n", maxDataLen);
+		data = (char*)realloc(data, maxDataLen);
 	}
 	memcpy(data+datalen, msg+2, len-2);
 	datalen+=len-2;
@@ -67,9 +66,16 @@ void messageParse(){
 		}
 		for(int shipCount = 0; shipCount < shipsUsed; shipCount++){
 			short type = *(short*)(data+dataUsed+shipCount*shipSize);
-			uint64_t* loc = (uint64_t*)(data+dataUsed+shipCount*shipSize+sizeof(short));
+			int64_t* loc = (int64_t*)(data+dataUsed+shipCount*shipSize+sizeof(short));
 			double* rot = (double*)(data+dataUsed+shipCount*shipSize+sizeof(short)+ sizeof(point));
 			drawShip(type, loc, rot);
+		}
+		dataUsed+=shipsUsed*shipSize;
+		short gfxCount = *((short*)(data+dataUsed)); dataUsed+=sizeof(short);
+		drawable thisDrawable;
+		for(int temp = 0; temp < gfxCount; temp++){
+			memcpy(&thisDrawable, data+dataUsed+temp*sizeof(drawable), sizeof(drawable));
+			drawDrawable(thisDrawable);
 		}
 		gfxFlip();
 	}

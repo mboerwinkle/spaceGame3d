@@ -3,7 +3,7 @@
 #include "share/dataTypes.h"
 #include "def.h"
 #include "share/intList.h"
-#define MAXDRAWABLES 100
+#define MAXDRAWABLES 1000
 class Ship;
 class Bubble{
 public:
