@@ -15,6 +15,7 @@ class Ship{
 public:
 	void tick();
 	void tickImportant();
+	int64_t rayCollide(point orig, quat dir);
 	Ship(short type, point pos, quat rot, int important, int* idx);
 	~Ship();
 

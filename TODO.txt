@@ -1,10 +1,12 @@
+blockunion rayCollide
+have a function that returns a list of all ships close to any ship. would help eliminate the looping through closeimportant and ships and myBub nonsense.
 let client handle out of order messages.
+used signedPoint everywhere where I cobbled together a solution to avoid signage problems
 make slow test to make sure that every ship is either in a bubble or an orphan
 some things in /shared include /def.h. This means that /client build depends on /def.h which should not be true.
 make common reversed quaternion functions faster
-used signedPoint everywhere where I cobbled together a solution to avoid signage problems
-make packets that are split up have a "is not the last packet" notifier at the end of non-last packets. Worst case if last packet gets dropped is two frames get mashed together.
 go through and fix FIXME's
+rayTraceCollide should use vectors instead of quaternions for the rotations to save computation time.
 send rotations as floats to client (save 16 bytes per ship)
 reduce turning at faster speeds.
 actually test bubble stuff

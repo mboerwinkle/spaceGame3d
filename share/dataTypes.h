@@ -4,7 +4,7 @@
 class BlockUnion;
 typedef double vec[3];
 typedef int64_t point[3];
-typedef int64_t signedPoint[3];//used for relative comparisons only//deprecated. use the now signed point
+typedef int64_t signedPoint[3];
 typedef struct controls{
 	double accel = 0;//0 - 1
 	double yaw = 0;//-1 - 1

@@ -24,6 +24,9 @@ Ship::Ship(short type, point pos, quat rot, int important, int* idx){
 	yawAngle = shipTypes[type].yawAngle;
 	pitchAngle = shipTypes[type].pitchAngle;
 	myBlock = shipTypes[type].myBlock;
+	if(myBlock != NULL){
+		rad = myBlock->radius;
+	}
 	if(important){
 		importants.add(index);
 		myBub = new Bubble(this);
@@ -127,5 +130,17 @@ void Ship::addSpeed(){
 //	pos[1]+=speed*(2*rot[0]*rot[3]+2*rot[1]*rot[2]);
 //	pos[2]+=speed*(-2*rot[0]*rot[2]+2*rot[1]*rot[3]);
 }
-
-
+int64_t Ship::rayCollide(point loc, quat dir){
+	point relLoc = {loc[0]-pos[0], loc[1]-pos[1], loc[2]-pos[2]};//used to be the other way. This way now though.
+	quat revRot = {dir[0], -dir[1], -dir[2], -dir[3]};
+	rotPoint(relLoc, revRot);
+	if((relLoc[1]*relLoc[1]+relLoc[2]*relLoc[2]<rad*rad && relLoc[0] < 0) || distance(loc, pos)<rad){//is along axis and is in front or is origin is inside of sphere.
+		if(myBlock != NULL){
+			return (-relLoc[0])-rad;//FIXME not accurate... This is the distance if the shot lined up exactly.
+			//FIXME reverse rotations
+//			return myBlock->rayCollide(
+		}
+		return (-relLoc[0])-rad;//FIXME not accurate... This is the distance if the shot lined up exactly.
+	}
+	return -1;
+}

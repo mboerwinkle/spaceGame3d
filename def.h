@@ -2,7 +2,7 @@
 #define MAXUSERS 10//maximum amount of handleable users
 #define MAXSHIPS 100//maximum amount of handleable ships
 #define MAXMODULES 4//maximum amount of modules per ship
-#define BUBBLERAD 5000//radius of collision bubbles
+#define BUBBLERAD 50000//radius of collision bubbles
 #define FRAMERATE 40
 #define PERIODIC 40//how often things that dont need to happen every tick happen
 extern int sockfd;

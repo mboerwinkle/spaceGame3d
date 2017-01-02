@@ -175,7 +175,7 @@ void initGfx() {
 	//Edit the projection matrix
 	glMatrixMode(GL_PROJECTION);
 	//This multiplies a specially designed matrix onto the selected one
-	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 500);
+	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 5000);
 	//Edit the modelview matrix (The "default" matrix)
 	glMatrixMode(GL_MODELVIEW);
 	//The default plane model requires each polygon to be a flat color to look right

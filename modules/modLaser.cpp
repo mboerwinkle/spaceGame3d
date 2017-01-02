@@ -28,7 +28,7 @@ void ModLaser::tick(int stat){
 }
 void ModLaser::fire(){
 	Ship* hit;
-	uint64_t dist;
+	int64_t dist;
 	Bubble* disBub;
 	if(owner->important){
 		disBub = owner->myBub;
@@ -36,14 +36,14 @@ void ModLaser::fire(){
 	drawable* disDrawable = &(disBub->drawables[disBub->drawableCount]);
 	disBub->drawableCount++;
 	disDrawable->type = 0;
-	{//FIXME two things wrong here. Shouldn't have to calculate direction vector and shouldnt have to run three lines to copy a vector.
+	//FIXME two things wrong here. Shouldn't have to calculate direction vector and shouldnt have to run three lines to copy a vector.
 	disDrawable->pos[0] = owner->pos[0];
 	disDrawable->pos[1] = owner->pos[1];
 	disDrawable->pos[2] = owner->pos[2];
 	double shipDir[3] = {1, 0, 0};
+	rotVector(shipDir, owner->rot);
 	memcpy(&(disDrawable->dir), shipDir, sizeof(vec));
-	rotVector(disDrawable->dir, owner->rot);
-	}
+	//
 	hit = rayTraceCollide(disBub, owner->pos, owner->rot, &dist);
 	if(hit != NULL){
 		printf("HIT %p %ld\n", hit, dist);

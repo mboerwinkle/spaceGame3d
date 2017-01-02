@@ -20,7 +20,7 @@ void User::sendUserData(){
 		return;
 	}
 
-	static char data[1000];//FIXME check for overflow.
+	static char data[100000];//FIXME check for overflow.
 	int datalen = 0;
 	strcpy(data, "SCN"); datalen+=3;
 	short* shipsUsed = (short*)(data+datalen); datalen+=sizeof(short);

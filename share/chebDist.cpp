@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "chebDist.h"
 unsigned long int chebDist(point& one, point& two){
 	unsigned long dist1, dist2, dist;
@@ -25,4 +26,7 @@ unsigned long int chebDist(point& one, point& two){
 		dist=dist2;
 	}
 	return dist;
+}
+int64_t distance(point a, point b){
+	return sqrt(pow(a[0]-b[0], 2)+pow(a[1]-b[1], 2)+pow(a[2]-b[2], 2));
 }
